@@ -6,8 +6,12 @@ import { CiMail } from "react-icons/ci";
 import { CiLocationOn } from "react-icons/ci";
 import { Link } from "@inertiajs/react";
 import Navbar from "./Navbar";
+import LangSwitcher from "../LangSwitcher";
+import { useLaravelReactI18n } from "laravel-react-i18n";
 
 export default function MainHeader({ user }) {
+     const { t, tChoice, currentLocale, setLocale, getLocales, isLocale, loading } = useLaravelReactI18n();
+    
     return (
         <>
             <div className="top-header">
@@ -91,7 +95,7 @@ export default function MainHeader({ user }) {
                                 <div className="book_consultation">
                                     <Link
                                         rel="noopener noreferrer"
-                                        to="/online-booking"
+                                        href={route('online-booking')}
                                     >
                                         <span>
                                             <img
@@ -107,10 +111,10 @@ export default function MainHeader({ user }) {
                                         className="language-picker js-language-picker"
                                         data-trigger-classname="btn btn--subtle"
                                     >
-                                        Language Switcher
+                                        <LangSwitcher />
                                     </div>
                                 </div>
-                                <Link to="/shop" className="shop-btn">
+                                <Link href={route('shop.index', {locale: currentLocale()})} className="shop-btn">
                                     <span>
                                         <img
                                             src="/assets/images/shop icon.webp"
@@ -120,7 +124,7 @@ export default function MainHeader({ user }) {
                                     Shop
                                 </Link>
 
-                               
+
                             </div>
                         </div>
                     </div>

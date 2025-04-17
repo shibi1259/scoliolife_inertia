@@ -1,7 +1,10 @@
 import { Link } from '@inertiajs/react';
 import React, { useEffect, useState } from 'react';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 export default function Banner() {
+    const { t, tChoice, currentLocale, setLocale, getLocales, isLocale, loading } = useLaravelReactI18n();
+    
 
     const getImageData = (language) => {
         switch (language) {
@@ -74,16 +77,11 @@ export default function Banner() {
                                 <img src={'/homeLogo/Award-2-EN.webp'} alt={'/homeLogo/Award-2-EN.webp'} />
                             </div>
                             <div className="banner-left-discription">
-                                {/* <h4>{t('banner.straightenSpine')}</h4> */}
-                                <h4>Straighten Your Spine Without Surgery</h4>
+                                <h4>{t('banner')['straightenSpine']}</h4>
+                                {/* <h4>Straighten Your Spine Without Surgery</h4> */}
                                 {/* <h1 dangerouslySetInnerHTML={{__html: currentLanguage == 'en_MY' ? t('banner.sayGoodbyeMY') : t('banner.sayGoodbye')}} /> */}
-                                <h1>
-
-                                Embrace a Life Free from Scoliosis: Experience the Innovation of Our Award-Winning Clinic's
-                                Non-Invasive Solutions.
-
-                                </h1>
-                                <Link href="/treatments/scoliosis" className="banner-btn">Treat Your Scoliosis Today</Link>
+                                <h1 dangerouslySetInnerHTML={{ __html: t('banner')['sayGoodbye']  }} />
+                                <Link href="/treatments/scoliosis" className="banner-btn">{t('banner')['treatScoliosis']}</Link>
                             </div>
                         </div>
                         <div className="col-sm-6" data-aos="fade-left">

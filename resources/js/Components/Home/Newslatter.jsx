@@ -12,7 +12,7 @@ const Newslatter = () => {
                             <p>Subscribe to our ScolioLife newsletter to receive the latest scoliosis research and articles, and get a 15% discount code for any product in our online store.</p>
                             <form>
                                 <input type="email" maxLength="50" required placeholder={'your email here ...'} />
-                                <button type='submit' className="bt">SubscribeF</button>
+                                <button type='submit' className="bt">Subscribe</button>
                             </form>
                         </div>
                     </div>

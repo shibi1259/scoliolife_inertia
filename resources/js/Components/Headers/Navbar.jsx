@@ -1,14 +1,18 @@
 import { Link } from "@inertiajs/react";
 import React from "react";
 import { PiUserCircle } from "react-icons/pi";
+import ApplicationLogo from "@/Components/ApplicationLogo";
+import { useLaravelReactI18n } from "laravel-react-i18n";
 
 const Navbar = ({ user }) => {
+    const { t, tChoice, currentLocale, setLocale, getLocales, isLocale, loading } = useLaravelReactI18n();
+    
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light sticky-top">
                 <div className="container">
                     <Link className="navbar-brand" href={route("home")}>
-                        <img src="/logo.png" alt="logo(11)" />
+                        <ApplicationLogo />
                     </Link>
                     <button
                         className="navbar-toggler mobile-toogler"
@@ -24,22 +28,22 @@ const Navbar = ({ user }) => {
                     <div className="collapse navbar-collapse" id="mobile_nav">
                         <ul className="navbar-nav navbar-light ">
                             <li className="nav-item">
-                                <Link href={route("home")} className="nav-link">
+                                <Link href={route("home", {locale: currentLocale()})} className="nav-link">
                                     Home
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link href={route("home")} className="nav-link">
+                                <Link href={route("home", {locale: currentLocale()})} className="nav-link">
                                     Articles
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link href={route("contact")} className="nav-link">
+                                <Link href={route("contact", {locale: currentLocale()})} className="nav-link">
                                     Contact
                                 </Link>
                             </li>
                             <div className="cart-header-design">
-                                <Link to="/cart">
+                                <Link href={route('shop.cart', {locale: currentLocale()})}>
                                     <img
                                         src="/assets/images/shopping-basket.webp"
                                         alt="shop"
@@ -54,13 +58,17 @@ const Navbar = ({ user }) => {
                                     </div>
                                     <div className="login-hover">
                                         <ul>
-                                            <li>
-                                                <Link href={route("login")}>
+                                            {!user ? <li>
+                                                <Link href={route("login", {locale: currentLocale()})}>
                                                     Login/Register
                                                 </Link>
-                                            </li>
+                                            </li> : <li>
+                                                <Link href={route("dashboard", {locale: currentLocale()})}>
+                                                    My Account
+                                                </Link>
+                                            </li>}
                                             <li>
-                                                <Link to="/cart">Cart</Link>
+                                                <Link to="/cart">Checkout</Link>
                                             </li>
                                             {user && (
                                                 <li>

@@ -4,6 +4,7 @@ import './bootstrap';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot, hydrateRoot } from 'react-dom/client';
+import { LaravelReactI18nProvider } from 'laravel-react-i18n';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -16,11 +17,18 @@ createInertiaApp({
         ),
     setup({ el, App, props }) {
         if (import.meta.env.SSR) {
-            hydrateRoot(el, <App {...props} />);
+            hydrateRoot(el,
+                <LaravelReactI18nProvider
+                    files={import.meta.glob('/lang/*.json')}
+                >
+                    <App {...props} />
+
+                </LaravelReactI18nProvider>
+            );
             return;
         }
 
-        createRoot(el).render(<App {...props} />);
+        createRoot(el).render(  <LaravelReactI18nProvider files={import.meta.glob('/lang/*.json')}> <App {...props} /> </LaravelReactI18nProvider> );
     },
     progress: {
         color: '#4B5563',

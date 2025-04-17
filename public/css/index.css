@@ -293,7 +293,7 @@ input[type=file]::file-selector-button {
 
 .banner {
     /* background: url(${process.env.PUBLIC_URL}/images/banner.webp); */
-    background: url(./images/banner.webp);
+    background: url(/images/banner.webp);
     background-size: cover;
     background-repeat: no-repeat;
     padding: 90px 0 0;
@@ -810,7 +810,7 @@ div#mobile_nav {
 .special-offer:before {
     content: "";
     position: absolute;
-    background: url(./images/knee.webp);
+    background: url(/images/knee.webp);
     background-position: top right;
     top: 0;
     bottom: 0;
@@ -983,7 +983,7 @@ i.fas.fa-unlock {
     bottom: 0;
     left: 0;
     right: 0;
-    background: url(./images/dot.webp);
+    background: url(/images/dot.webp);
     background-repeat: no-repeat;
     background-position: top right;
 }
@@ -1213,7 +1213,7 @@ i.fas.fa-unlock {
 .faq-section:after {
     content: "";
     position: absolute;
-    background: url(./images/faq-bg.webp);
+    background: url(/images/faq-bg.webp);
     background-repeat: no-repeat !important;
     height: 100%;
     width: 100%;
@@ -1352,7 +1352,7 @@ i.fas.fa-unlock {
 }
 
 .patients-form {
-    background: url(../src/images/From-Patients.webp);
+    background: url(/images/From-Patients.webp);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -4691,7 +4691,7 @@ div#collapseID .accordion-body {
 
 /* Discount model  */
 .thumb-newsletter {
-    background-image: url(./images/thumb_Newsletter.png);
+    background-image: url(/images/thumb_Newsletter.png);
     background-size: cover;
     background-blend-mode: color;
     max-width: 470px;
@@ -5111,6 +5111,22 @@ li.navigation-link--dashboard.is-active {
 
 .woocommerce-MyAccount-navigation li:hover {
     background: #f17800;
+}
+
+.navigation-link--customer-logout button{
+    background: none;
+    border: none;
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+}
+.dashboard-logout-span{
+    background: none;
+    border: none;
+    text-decoration: none;
+    font-weight: bold;
+    color: #f17800;
+    cursor: pointer;
 }
 
 .my-account {
@@ -9080,7 +9096,7 @@ ul.listing_items56 img,.listing_items589 img {
 .col-sm-12.col-lg-12.mb-12.custom-child-shop {
     display: none;
 }
-body ul.sub-menu ul.sub-menus a {
+body ul.sub-menu ul.sub-menus a {   
     padding-left: 55px !important;
 }
 .dropdown-menu.sm-menu-parent-services a.nav-link.dropdown-toggle {

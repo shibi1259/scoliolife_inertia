@@ -29,11 +29,10 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
-
+        $request->authenticate();   
         $request->session()->regenerate();
-
-        return redirect()->intended(route('home', absolute: false));
+        $locale = $request->route('locale') ?? config('app.locale');
+        return redirect()->intended(route('home', ['locale' => $locale]));
     }
 
     /**

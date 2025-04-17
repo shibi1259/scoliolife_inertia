@@ -3,6 +3,7 @@ import createServer from '@inertiajs/react/server';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import ReactDOMServer from 'react-dom/server';
 import { route } from '../../vendor/tightenco/ziggy';
+import { LaravelReactI18nProvider } from 'laravel-react-i18n';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -23,7 +24,10 @@ createServer((page) =>
                     location: new URL(page.props.ziggy.location),
                 });
 
-            return <App {...props} />;
+            return <LaravelReactI18nProvider
+
+                files={import.meta.glob('/lang/*.json')}
+            > <App {...props} />  </LaravelReactI18nProvider>;
         },
     }),
 );

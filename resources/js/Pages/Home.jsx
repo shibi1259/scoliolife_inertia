@@ -1,4 +1,4 @@
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 
 import Banner from "@/Components/Home/Banner";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -12,7 +12,8 @@ import Contact from "@/Components/Home/Contact";
 import Faqs from "@/Components/Home/Faqs";
 import Newslatter from "@/Components/Home/Newslatter";
 
-export default function Welcome({ auth, laravelVersion, phpVersion }) {
+export default function Welcome({ auth }) {
+    console.log(usePage())
     return (
         <AuthenticatedLayout>
             <Head title="Welcome" />

@@ -133,21 +133,19 @@ export default function Register() {
                             <div className="side-btn">
                                 <Link
                                     href={route("login")}
-                                    className={`${
-                                        route().current("login")
+                                    className={`${route().current("login")
                                             ? "login"
                                             : "register"
-                                    }`}
+                                        }`}
                                 >
                                     Log In
                                 </Link>
                                 <Link
                                     href={route("register")}
-                                    className={`${
-                                        route().current("register")
+                                    className={`${route().current("register")
                                             ? "login"
                                             : "register"
-                                    }`}
+                                        }`}
                                 >
                                     Register
                                 </Link>
@@ -167,19 +165,18 @@ export default function Register() {
                                         Username
                                     </label>
                                     <div className="gmail-login">
+
                                         <TextInput
                                             id="name"
-                                            type="text"
+                                            type="name"
                                             name="name"
                                             value={data.name}
                                             className="form-control"
                                             autoComplete="name"
-                                            isFocused={true}
                                             onChange={(e) =>
                                                 setData("name", e.target.value)
                                             }
                                         />
-
                                         <FaRegUserCircle />
                                     </div>
                                     {errors.name && (
@@ -277,7 +274,7 @@ export default function Register() {
                                         htmlFor="password"
                                         className="form-label"
                                     >
-                                        Password
+                                       Confirm Password
                                     </label>
                                     <div className="gmail-login">
                                         <TextInput

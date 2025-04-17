@@ -42,7 +42,7 @@ const Contact = () => {
                         <div className="contact_item_content">
                             <ul className="contact_box">
                                 <li className="item-content clearfix">
-                                    <span className="hexagon">
+                                    <span className="hexagon">  
                                         {" "}
                                         <i
                                             className="fa fa-phone"
@@ -141,7 +141,7 @@ const Contact = () => {
                         <div className="contact_img">
                             <img
                                 decoding="async"
-                                src="/images/facebook-page.jpg"
+                                src="https://sladmin.scoliolife.com/uploads/2022/07/Contact-us-EN.png"
                                 alt="Facebook Page"
                             />
                         </div>

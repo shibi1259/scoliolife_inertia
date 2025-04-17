@@ -6,13 +6,15 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { useLaravelReactI18n } from "laravel-react-i18n";
 import { useState } from "react";
 import { CiMail } from "react-icons/ci";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login({ status, canResetPassword }) {
         const [showPassword, setShowPassword] = useState(false);
-    
+        const { t, tChoice, currentLocale, setLocale, getLocales, isLocale } = useLaravelReactI18n();
+    const currentLanguage = currentLocale();
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         password: "",
@@ -22,7 +24,7 @@ export default function Login({ status, canResetPassword }) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("login"), {
+        post(route("login", {locale: currentLanguage}), {
             onFinish: () => reset("password"),
         });
     };
@@ -49,7 +51,7 @@ export default function Login({ status, canResetPassword }) {
                             />
                             <div className="side-btn">
                                 <Link
-                                    href={route("login")}
+                                    href={route("login", {locale: currentLanguage})}
                                     className={`${
                                         route().current("login")
                                             ? "login"
@@ -59,7 +61,7 @@ export default function Login({ status, canResetPassword }) {
                                     Log In
                                 </Link>
                                 <Link
-                                    href={route("register")}
+                                    href={route("register", {locale: currentLanguage})}
                                     className={`${
                                         route().current("register")
                                             ? "login"
