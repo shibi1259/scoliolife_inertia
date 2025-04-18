@@ -1,31 +1,14 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Middleware\SetLocale;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\SetLocale;
 use Inertia\Inertia;
-
-// Route::get('/', function () {
-//     return Inertia::render('Home', []);
-// })->name('home');
-Route::get('/', function () {
-    return redirect('/en'); // or config('app.locale')
-});
-
-// Route::group(['prefix' => '{locale}', 'middleware' => ['setLocale']], function () {
-//     Route::get('/', function () {
-//         return Inertia::render('Home');
-//     })->name('home');
-    
-//     // other routes...
-// });
-
 
 Route::prefix('{locale?}')
     ->middleware([SetLocale::class, 'web'])
+    ->where(['locale' => implode('|', config('app.available_locales'))])
     ->group(function () {
-        
         Route::get('/', function () {
             return Inertia::render('Home');
         })->name('home');

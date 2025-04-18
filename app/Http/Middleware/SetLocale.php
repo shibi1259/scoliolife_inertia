@@ -23,13 +23,27 @@ class SetLocale
 
         $locale = $request->route('locale');
 
-        if (!in_array($locale, ['en', 'fr', 'de'])) {
-            $locale = config('app.locale');
+        // if (in_array($locale, config('app.available_locales'))) {
+        //     App::setLocale($locale);
+        // } else {
+        //     App::setLocale(config('app.locale'));
+        // }
+
+        if (!$locale || $locale === config('app.locale')) {
+            $segments = $request->segments();
+            if (!empty($segments) && in_array($segments[0], config('app.available_locales'))) {
+                array_shift($segments);
+                return redirect()->to('/' . implode('/', $segments));
+            }
+            
+            App::setLocale(config('app.locale'));
+
+        } elseif (in_array($locale, config('app.available_locales'))) {
+            App::setLocale($locale);
+        } else {
+            abort(404);
         }
-
-        app()->setLocale($locale);
-
-        // Only set PHP locale if needed
+     
         if (function_exists('setlocale')) {
             try {
                 setlocale(LC_TIME, $locale . '_' . strtoupper($locale), $locale);

@@ -3,10 +3,12 @@ import React from "react";
 import { PiUserCircle } from "react-icons/pi";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import { useLaravelReactI18n } from "laravel-react-i18n";
+import { getLocaleForRoute } from "@/Utils/localeHelper";
 
 const Navbar = ({ user }) => {
     const { t, tChoice, currentLocale, setLocale, getLocales, isLocale, loading } = useLaravelReactI18n();
-    
+    const lang = currentLocale();
+    const currentLang = getLocaleForRoute(lang);
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light sticky-top">
@@ -28,22 +30,22 @@ const Navbar = ({ user }) => {
                     <div className="collapse navbar-collapse" id="mobile_nav">
                         <ul className="navbar-nav navbar-light ">
                             <li className="nav-item">
-                                <Link href={route("home", {locale: currentLocale()})} className="nav-link">
+                                <Link href={route("home", {locale: currentLang })} className="nav-link">
                                     Home
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link href={route("home", {locale: currentLocale()})} className="nav-link">
+                                <Link href={route("home", {locale: currentLang })} className="nav-link">
                                     Articles
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link href={route("contact", {locale: currentLocale()})} className="nav-link">
+                                <Link href={route("contact", {locale: currentLang })} className="nav-link">
                                     Contact
                                 </Link>
                             </li>
                             <div className="cart-header-design">
-                                <Link href={route('shop.cart', {locale: currentLocale()})}>
+                                <Link href={route('shop.cart', {locale: currentLang})}>
                                     <img
                                         src="/assets/images/shopping-basket.webp"
                                         alt="shop"
@@ -59,11 +61,11 @@ const Navbar = ({ user }) => {
                                     <div className="login-hover">
                                         <ul>
                                             {!user ? <li>
-                                                <Link href={route("login", {locale: currentLocale()})}>
+                                                <Link href={route("login", {locale: currentLang})}>
                                                     Login/Register
                                                 </Link>
                                             </li> : <li>
-                                                <Link href={route("dashboard", {locale: currentLocale()})}>
+                                                <Link href={route("dashboard", {locale: currentLang})}>
                                                     My Account
                                                 </Link>
                                             </li>}

@@ -78,11 +78,32 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => env('APP_LOCALE', 'en_US'),
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en_US'),
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
+
+    'available_locales' => [
+        'en_US',
+        'en_SG',
+        'en_AU',
+        'en_UK',
+        'en_CA',
+        'en_IN',
+        'en_MY',
+        'en_NZ',
+        'fr_FR',
+        'de_DE',
+        'es_ES',
+        'id_ID',
+        'it_IT',
+        'es_MX',
+        'zh_CN',
+        'zh_HK',
+        'ja_JP',
+    ],
+
 
     /*
     |--------------------------------------------------------------------------
