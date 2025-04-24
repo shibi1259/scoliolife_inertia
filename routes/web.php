@@ -5,34 +5,73 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\SetLocale;
 use Inertia\Inertia;
 
-Route::prefix('{locale?}')
-    ->middleware([SetLocale::class, 'web'])
-    ->where(['locale' => implode('|', config('app.available_locales'))])
-    ->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('Home');
-        })->name('home');
+// Route::prefix('{locale?}')
+//     ->middleware([SetLocale::class, 'web'])
+//     ->where(['locale' => implode('|', config('app.available_locales'))])
+//     ->group(function () {
+//         Route::get('/', function () {
+//             return Inertia::render('Home');
+//         })->name('home');
         
-        // All other routes that need localization
-        Route::get('/my-account', function () {
-            return Inertia::render('Dashboard');
-        })->middleware(['auth', 'verified'])->name('dashboard');
+//         // All other routes that need localization
+//         Route::get('/my-account', function () {
+//             return Inertia::render('Dashboard');
+//         })->middleware(['auth', 'verified'])->name('dashboard');
 
-        Route::get('/my-account', function () {
-            return Inertia::render('Dashboard');
-        })->middleware(['auth', 'verified'])->name('dashboard');
+//         Route::get('/my-account', function () {
+//             return Inertia::render('Dashboard');
+//         })->middleware(['auth', 'verified'])->name('dashboard');
         
-        Route::middleware('auth')->group(function () {
-            Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-            Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-            Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-        });
+//         Route::middleware('auth')->group(function () {
+//             Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//             Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//             Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+//         });
         
-        Route::get('online-booking', function () {
-            return Inertia::render('OnlineBooking');
-        })->name('online-booking');
+//         Route::get('online-booking', function () {
+//             return Inertia::render('OnlineBooking');
+//         })->name('online-booking');
         
-        require __DIR__.'/auth.php';
-        require __DIR__.'/contact.php';
-        require __DIR__.'/shop.php';
+//         require __DIR__.'/auth.php';
+//         require __DIR__.'/contact.php';
+//         require __DIR__.'/shop.php';
+//     });
+
+
+
+$routeHandler = function () {
+    Route::get('/', function () {
+        return Inertia::render('Home');
+    })->name('home');
+    
+    Route::get('/my-account', function () {
+        return Inertia::render('Dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
+    
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
+    
+    Route::get('online-booking', function () {
+        return Inertia::render('OnlineBooking');
+    })->name('online-booking');
+    
+    require __DIR__.'/auth.php';
+    require __DIR__.'/contact.php';
+    require __DIR__.'/shop.php';
+};
+
+// For default locale (en_US) - no prefix
+Route::middleware(['web'])
+    ->group($routeHandler);
+
+// For all other locales - with prefix
+Route::prefix('{locale}')
+    ->middleware([SetLocale::class, 'web'])
+    // ->where(['locale' => implode('|', array_filter(config('app.available_locales'), function($locale) {
+    //     return $locale !== config('app.locale');
+    // }))])
+    // ->where(['locale' => implode('|', config('app.available_locales'))])
+    ->group($routeHandler);

@@ -13,7 +13,7 @@ const Navbar = ({ user }) => {
         <>
             <nav className="navbar navbar-expand-lg navbar-light sticky-top">
                 <div className="container">
-                    <Link className="navbar-brand" href={route("home")}>
+                    <Link className="navbar-brand" href={route("home",{locale: currentLang })}>
                         <ApplicationLogo />
                     </Link>
                     <button
