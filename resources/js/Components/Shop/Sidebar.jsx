@@ -14,7 +14,7 @@ const Sidebar = () => {
                                     <Link to="/en/product/scoliosis-pillow" rel="noopener">
                                         <img
                                             loading="lazy"
-                                            src="https://sladmin.scoliolife.com/uploads/2023/03/Scoliogig_resutls-1.gif"
+                                            src="https://scoliolife.com/uploads/2023/03/Scoliogig_resutls-1.gif"
                                             style={{ width: "100%", height: "222px" }}
                                             alt=""
                                         />
@@ -48,7 +48,7 @@ const Sidebar = () => {
                                         <Link to="/" rel="noopener">
                                             <img
                                                 loading="lazy"
-                                                src="https://sladmin.scoliolife.com/uploads/2022/12/Our-Promise-EN.png"
+                                                src="https://scoliolife.com/uploads/2022/12/Our-Promise-EN.png"
                                                 style={{ width: "100%", height: "222px" }}
                                                 alt=""
                                             />
@@ -63,7 +63,7 @@ const Sidebar = () => {
                                     <Link to="/en/bottom-image" rel="noopener">
                                         <img
                                             loading="lazy"
-                                            src="https://sladmin.scoliolife.com/uploads/2023/04/Dr.Kevin_EN.png"
+                                            src="https://scoliolife.com/uploads/2023/04/Dr.Kevin_EN.png"
                                             style={{ width: "100%", height: "222px" }}
                                             alt=""
                                         />

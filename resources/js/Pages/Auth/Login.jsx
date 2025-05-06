@@ -51,8 +51,8 @@ export default function Login({ status, canResetPassword }) {
                     <div className="col-sm-6">
                         <div className="login-img">
                             <img
-                                src="https://sladmin.scoliolife.com/uploads/2023/05/login-bg-600x587-1.webp"
-                                alt="https://sladmin.scoliolife.com/uploads/2023/05/login-bg-600x587-1.webp"
+                                src="https://scoliolife.com/uploads/2023/05/login-bg-600x587-1.webp"
+                                alt="https://scoliolife.com/uploads/2023/05/login-bg-600x587-1.webp"
                             />
                             <div className="side-btn">
                                 <Link

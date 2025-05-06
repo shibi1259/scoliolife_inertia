@@ -6,6 +6,7 @@ import Sidebar from "@/Components/Shop/Sidebar";
 import { getProducts } from "@/API/api";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useLaravelReactI18n } from "laravel-react-i18n";
+import { getLocaleForRoute } from "@/Utils/localeHelper";
 
 const Shop = () => {
     const [products, setProducts] = useState([]);

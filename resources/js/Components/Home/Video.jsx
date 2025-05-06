@@ -10,7 +10,7 @@ const Video = () => {
                         <div className="video-wrapper">
                             <div className="image-video">
                                 <img
-                                    src="https://sladmin.scoliolife.com/uploads/2023/08/Take-a-look-inside-our-clinic-300-x-200-px.png"
+                                    src="https://scoliolife.com/uploads/2023/08/Take-a-look-inside-our-clinic-300-x-200-px.png"
                                     alt="Take a look inside our clinic"
                                 />
                             </div>

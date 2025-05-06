@@ -141,7 +141,7 @@ const Contact = () => {
                         <div className="contact_img">
                             <img
                                 decoding="async"
-                                src="https://sladmin.scoliolife.com/uploads/2022/07/Contact-us-EN.png"
+                                src="https://scoliolife.com/uploads/2022/07/Contact-us-EN.png"
                                 alt="Facebook Page"
                             />
                         </div>
