@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\SetLocale;
 use Inertia\Inertia;
+
+
 
 $routeHandler = function () {
     Route::get('/', function () {
@@ -24,23 +27,16 @@ $routeHandler = function () {
         return Inertia::render('OnlineBooking');
     })->name('online-booking');
 
-    require __DIR__.'/auth.php';
-    require __DIR__.'/contact.php';
-    require __DIR__.'/shop.php';
+    require __DIR__ . '/auth.php';
+    require __DIR__ . '/contact.php';
+    require __DIR__ . '/shop.php';
 };
 
+require __DIR__ . '/admin.php';
+Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
+
 // For default locale (en_US) - no prefix
-Route::middleware(['web'])
-->group($routeHandler);
+Route::middleware(['web'])->group($routeHandler);
 
 // For all other locales - with prefix
-Route::prefix('{locale}')
-->middleware([SetLocale::class, 'web'])
-// ->where(['locale' => implode('|', array_filter(config('app.available_locales'), function($locale) {
-    //     return $locale !== config('app.locale');
-    // }))])
-    // ->where(['locale' => implode('|', config('app.available_locales'))])
-    ->group($routeHandler);
-
-
-require __DIR__.'/admin.php';
+Route::prefix('{locale}')->middleware([SetLocale::class, 'web'])->group($routeHandler);

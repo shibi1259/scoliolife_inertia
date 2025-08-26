@@ -12,22 +12,39 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Language Name</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
+                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
+                                @error('name')
+                                    <div class="text-danger form-text mt-2">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="code" class="form-label">Language Code</label>
-                                <input type="text" class="form-control" id="code" name="code" required>
+                                <input type="text" class="form-control" id="code" name="code" value="{{ old('code') }}">
+                                @error('code')
+                                    <div class="text-danger form-text mt-2">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="icon" class="form-label">Language Icon</label>
                                 <input type="file" class="form-control" id="icon" name="icon" accept="image/*">
+                                @error('icon')
+                                    <div class="text-danger form-text mt-2">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="status" class="form-label">Status</label>
-                                <select class="form-control" id="status" name="status" required>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
+                                <select class="form-control" id="status" name="status">
+                                    <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                    <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive
+                                    </option>
                                 </select>
+                                @error('status')
+                                    <div class="text-danger form-text mt-2">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <textarea name="desc" id="desc"></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Create Language</button>
                         </form>
@@ -40,3 +57,11 @@
         </div>
     </div>
 @endsection
+
+@section('scripts')
+<script>
+    tinymce.init({
+        selector: '#desc'
+    });
+</script>
+    @endsection

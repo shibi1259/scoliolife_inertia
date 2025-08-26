@@ -29,10 +29,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();   
+        $request->authenticate();
         $request->session()->regenerate();
         $locale = $request->route('locale') ?? config('app.locale');
-        return redirect()->intended(route('home', ['locale' => $locale]));
+        $request->user()->update(['last_login' => now()]);
+
+        $redirectRoute = $request->user()->hasRole('admin') ? route('admin.index') : route('home', ['locale' => $locale]);
+        return redirect()->intended($redirectRoute);
     }
 
     /**
@@ -45,7 +48,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-
-        return redirect('/');
+        $redirectRoute = $request->routeIs('admin.*') ? route('admin.auth.login') : route('login', ['locale' => app()->getLocale()]);
+        return redirect($redirectRoute);
     }
 }

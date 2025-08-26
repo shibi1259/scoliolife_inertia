@@ -15,4 +15,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+
     @stack('styles')

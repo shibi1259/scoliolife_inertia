@@ -6,7 +6,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { getLocaleForRoute } from "@/Utils/localeHelper";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import { useState } from "react";
 import { CiMail } from "react-icons/ci";
@@ -33,7 +33,7 @@ export default function Login({ status, canResetPassword }) {
             onFinish: () => reset("password"),
         });
     };
-
+ console.log(usePage())
     return (
         <GuestLayout>
             <Head title="Log in" />

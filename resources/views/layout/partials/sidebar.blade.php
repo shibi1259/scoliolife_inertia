@@ -16,8 +16,8 @@
              </a>
              <div class="collapse" id="ui-basic">
                  <ul class="nav flex-column sub-menu">
-                     <li class="nav-item"> <a class="nav-link" href="{{ route('language.create') }}">Add Language</a></li>
-                     <li class="nav-item"> <a class="nav-link" href="{{ route('language.index') }}">All Languages</a></li>
+                     <li class="nav-item"> <a class="nav-link" href="{{ route('admin.language.create') }}">Add Language</a></li>
+                     <li class="nav-item"> <a class="nav-link" href="{{ route('admin.language.index') }}">All Languages</a></li>
                  </ul>
              </div>
          </li>

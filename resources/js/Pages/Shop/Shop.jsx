@@ -85,7 +85,7 @@ const Shop = () => {
                                 <div className="col-sm-4" key={product.id}>
                                     <div className="shop-treatments">
                                         <BsHeart />
-                                        <Link href={route('shop.product', { product: product.slug, locale: currentLanguage })} className="shop-link">
+                                        <Link href={route('shop.product', { product: product.slug, locale: currentLang })} className="shop-link">
                                             <img src={product.photo} alt={product.title} />
                                             <h3>{product.title}</h3>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Language;
 use Illuminate\Http\Request;
+use Str;
 
 class LanguageController extends Controller
 {
@@ -33,8 +34,27 @@ class LanguageController extends Controller
         $request->validate([
             "name" => "required",
             "code" => "required",
-            "flag" => "required|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
+            "icon" => "required|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
+            "status" => "required|in:active,inactive"
         ]);
+
+        if ($request->file('icon')) {
+            $iconName = time() . '_' . $request->file('icon')->getClientOriginalName();
+            $request->file('icon')->move(public_path('uploads/language_icons'), $iconName);
+            $icon = "uploads/language_icons/$iconName";
+        } else {
+            $icon = null;
+        }
+
+        Language::create([
+            'name' => $request->name,
+            'code' => $request->code,
+            'slug' => Str::slug($request->name),
+            'icon' => $icon,
+            'status' => $request->status
+        ]);
+
+        return redirect()->route('language.index');
     }
 
     /**

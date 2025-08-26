@@ -23,6 +23,7 @@
                                         <tr>
                                             <td>{{ $language->name }}</td>
                                             <td>{{ $language->code }}</td>
+                                            <td><span class="badge text-white {{ $language->status === 'active' ? 'text-bg-success' : 'text-bg-danger' }}">{{ ucfirst($language->status) }}</span></td>
                                             <td>
                                                 <a href="{{ route('language.edit', $language->id) }}"
                                                     class="btn btn-primary">Edit</a>

@@ -1,7 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { getLocaleForRoute } from '@/Utils/localeHelper';
 import { Head, Link } from '@inertiajs/react';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 export default function Dashboard({ auth }) {
+    const { t, tChoice, currentLocale, setLocale, getLocales, isLocale, loading } = useLaravelReactI18n();
+    const lang = currentLocale();
+    const currentLang = getLocaleForRoute(lang);
     return (
         <AuthenticatedLayout>
             <Head title="Dashboard" />
@@ -24,7 +29,7 @@ export default function Dashboard({ auth }) {
                                         <Link to="/account-details">Account details</Link>
                                     </li>
                                     <li className="navigation-link--customer-logout"><i className="fa fa-angle-right" aria-hidden="true"></i>
-                                     <Link href={route("logout")} method="post">  <span> Log Out </span> </Link>
+                                        <Link href={route("logout", { locale: currentLang })} method="post">  <span> Log Out </span> </Link>
                                     </li>
                                 </ul>
                             </nav>
@@ -33,7 +38,7 @@ export default function Dashboard({ auth }) {
                             <div className="woocommerce-MyAccount-content">
                                 <div className="woocommerce-notices-wrapper"></div>
                                 <p>
-                                    Hello <strong>{auth.user.name}</strong> (not <strong>{auth.user.name}</strong>? <Link href={route("logout")} method="post" className='dashboard-logout-span'>  <span> Log Out </span> </Link>)
+                                    Hello <strong>{auth.user.name}</strong> (not <strong>{auth.user.name}</strong>? <Link href={route("logout", { locale: currentLang })} method="post" className='dashboard-logout-span'>  <span> Log Out </span> </Link>)
                                 </p>
                                 <p>
                                     From your account dashboard you can view your <Link to="/order">recent orders</Link></p>

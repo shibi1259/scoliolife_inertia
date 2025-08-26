@@ -10,12 +10,12 @@ import LangSwitcher from "../LangSwitcher";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import { getLocaleForRoute } from "@/Utils/localeHelper";
 
-export default function MainHeader({ user }) {
-     const { t, tChoice, currentLocale, setLocale, getLocales, isLocale, loading } = useLaravelReactI18n();
+export default function MainHeader({ user, languages, menus }) {
+    const { t, tChoice, currentLocale, setLocale, getLocales, isLocale, loading } = useLaravelReactI18n();
     const lang = currentLocale();
     const currentLang = getLocaleForRoute(lang);
 
-    console.log("currentLocale",currentLocale(),'currentLang',currentLang);
+    console.log("menus", menus);
     return (
         <>
             <div className="top-header">
@@ -99,7 +99,7 @@ export default function MainHeader({ user }) {
                                 <div className="book_consultation">
                                     <Link
                                         rel="noopener noreferrer"
-                                        href={route('online-booking', {locale: currentLang})}
+                                        href={route('online-booking', { locale: currentLang })}
                                     >
                                         <span>
                                             <img
@@ -115,10 +115,10 @@ export default function MainHeader({ user }) {
                                         className="language-picker js-language-picker"
                                         data-trigger-classname="btn btn--subtle"
                                     >
-                                        <LangSwitcher />
+                                        <LangSwitcher languages={languages} />
                                     </div>
                                 </div>
-                                <Link href={route('shop.index', {locale: currentLang})} className="shop-btn">
+                                <Link href={route('shop.index', { locale: currentLang })} className="shop-btn">
                                     <span>
                                         <img
                                             src="/assets/images/shop icon.webp"
@@ -127,14 +127,12 @@ export default function MainHeader({ user }) {
                                     </span>
                                     Shop
                                 </Link>
-
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <Navbar user={user} />
+            <Navbar user={user} menus={menus} />
         </>
     );
 }

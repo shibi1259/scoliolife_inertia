@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from '@inertiajs/react';
+import { getFooterItems } from '@/API/api';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { getLocaleForRoute } from '@/Utils/localeHelper';
 
 const Footer = () => {
+   const { t, tChoice, currentLocale, setLocale, getLocales, isLocale, loading } = useLaravelReactI18n();
+    const lang = currentLocale();
+    const currentLang = getLocaleForRoute(lang);
+  const [footer, setFooter] = useState(null)
+
+  const getFoter = async () => {
+    const res = await getFooterItems(lang);
+    setFooter(res);
+  }
+
+  useEffect(() => {
+    getFoter()
+  }, [lang])
+  console.log(footer)
   const footerData = [
     { lable: 'About Us', href: '/about-us' },
     { lable: 'Services', href: '/services' },
@@ -55,7 +72,8 @@ const Footer = () => {
                     </div>
                   </div>
                 </div>
-              )})}
+              )
+            })}
           </div>
 
           {/* Facebook Widget */}

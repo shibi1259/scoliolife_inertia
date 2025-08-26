@@ -10,3 +10,15 @@ export const getLanguages = async () => {
     const data = await response.json();
     return data;
 }
+
+export const getMenuItems = async (language) => {
+    const response = await fetch(`${API}/menuitem/header/${language}`);
+    const data = await response.json();
+    return data;
+}
+
+export const getFooterItems = async (language) => {
+    const response = await fetch(`${API}/menuitem/footer/${language}`);
+    const data = await response.json();
+    return data;
+}
