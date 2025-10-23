@@ -3,17 +3,19 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-
+use Illuminate\Database\Eloquent\Attributes\Scope;
 class User extends Authenticatable
 {
     use HasRoles;
-    
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +27,7 @@ class User extends Authenticatable
         'email',
         'password',
         'last_login',
+        'status'
     ];
 
     /**
@@ -50,7 +53,21 @@ class User extends Authenticatable
         ];
     }
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->hasRole('admin');
+    }
+
+    #[Scope] // 👈 Laravel 12+ scope attribute
+    public function scopenonAdmin(Builder $query)
+    {
+        return $query->whereDoesntHave('roles', function ($query) {
+            $query->where('name', 'admin');
+        });
+    }
+
+    public function info()
+    {
+        return $this->hasOne(UserInformation::class);
     }
 }

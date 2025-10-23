@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->timestamp('last_login')->nullable()->after('remember_token');
+            $table->enum('status', ['active', 'inactive'])->default('active')->after('last_login');
+            $table->softDeletes();
         });
     }
 

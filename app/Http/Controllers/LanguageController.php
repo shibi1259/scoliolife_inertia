@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\LanguagesDataTable;
 use App\Models\Language;
 use Illuminate\Http\Request;
 use Str;
@@ -11,10 +12,11 @@ class LanguageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(LanguagesDataTable $datatable)
     {
         $languages = Language::paginate(10);
-        return view("admin.language.index", compact("languages"));
+        // return $datatable->render('admin.language.index');
+        return view("admin.language.index", compact("languages", 'datatable'));
     }
 
     /**
@@ -22,7 +24,7 @@ class LanguageController extends Controller
      */
     public function create()
     {
-       return view("admin.language.create");
+        return view("admin.language.create");
     }
 
     /**
@@ -54,7 +56,7 @@ class LanguageController extends Controller
             'status' => $request->status
         ]);
 
-        return redirect()->route('language.index');
+        return redirect()->route('admin.language.index');
     }
 
     /**

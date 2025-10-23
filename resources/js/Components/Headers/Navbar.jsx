@@ -7,21 +7,11 @@ import { getLocaleForRoute } from "@/Utils/localeHelper";
 import { getMenuItems } from "@/API/api";
 import MenuItems from "./MenuItems";
 
-const Navbar = ({ user }) => {
-    const { t, tChoice, currentLocale, setLocale, getLocales, isLocale, loading } = useLaravelReactI18n();
+const Navbar = ({ user, header }) => {
+    const { t, currentLocale, loading } = useLaravelReactI18n();
     const lang = currentLocale();
     const currentLang = getLocaleForRoute(lang);
-    const [menus, setMenu] = useState(null)
     const [openMenus, setOpenMenus] = useState({});
-
-    const getMenu = async () => {
-        const res = await getMenuItems(lang);
-        setMenu(res)
-    }
-
-    useEffect(() => {
-        getMenu()
-    }, [lang])
 
     // Toggle dropdown menu
     const toggleMenu = (id) => {
@@ -46,7 +36,7 @@ const Navbar = ({ user }) => {
             [id]: false,
         }));
     };
-    console.log(menus)
+
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light sticky-top">
@@ -70,31 +60,20 @@ const Navbar = ({ user }) => {
 
 
                             {/* Menus Here */}
-                            {menus && menus[0]?.items && (
+                            {header && (
                                 <MenuItems
-                                    items={menus[0].items}
+                                    items={header[0].items}
                                     currentLang={currentLang}
                                     toggleMenu={toggleMenu}
                                     handleMouseEnter={handleMouseEnter}
                                     handleMouseLeave={handleMouseLeave}
                                     openMenus={openMenus}
+                                    isMobile={window.innerWidth <= 991}
+                                    mobileScreen={window.innerWidth <= 767}
+                                    scrollToTop={() => window.scrollTo(0, 0)}
                                 />
                             )}
-                            {/* <li className="nav-item">
-                                <Link href={route("home", {locale: currentLang })} className="nav-link">
-                                    Home
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link href={route("home", {locale: currentLang })} className="nav-link">
-                                    Articles
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link href={route("contact", {locale: currentLang })} className="nav-link">
-                                    Contact
-                                </Link>
-                            </li> */}
+
                             <div className="cart-header-design">
                                 <Link href={route('shop.cart', { locale: currentLang })}>
                                     <img

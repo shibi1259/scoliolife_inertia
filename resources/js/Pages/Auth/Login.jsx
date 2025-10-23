@@ -15,8 +15,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 export default function Login({ status, canResetPassword }) {
     const [showPassword, setShowPassword] = useState(false);
     const { t, tChoice, currentLocale, setLocale, getLocales, isLocale } = useLaravelReactI18n();
-    // const currentLanguage = currentLocale();
-
     const lang = currentLocale();
     const currentLang = getLocaleForRoute(lang);
 
@@ -28,12 +26,11 @@ export default function Login({ status, canResetPassword }) {
 
     const submit = (e) => {
         e.preventDefault();
-
         post(route("login", {locale: currentLang}), {
             onFinish: () => reset("password"),
         });
     };
- console.log(usePage())
+
     return (
         <GuestLayout>
             <Head title="Log in" />

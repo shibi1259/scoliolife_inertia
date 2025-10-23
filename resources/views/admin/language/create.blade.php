@@ -8,7 +8,7 @@
                     <div class="card-body">
                         <h4 class="card-title">Create Language</h4>
 
-                        <form action="{{ route('language.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.language.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Language Name</label>
@@ -42,10 +42,6 @@
                                     <div class="text-danger form-text mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
-
-                            <div class="mb-3">
-                                <textarea name="desc" id="desc"></textarea>
-                            </div>
                             <button type="submit" class="btn btn-primary">Create Language</button>
                         </form>
                     </div>
@@ -53,15 +49,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <a href="{{ route('language.index') }}" class="btn btn-secondary">Back to All Languages</a>
+            <a href="{{ route('admin.language.index') }}" class="btn btn-secondary">Back to All Languages</a>
         </div>
     </div>
 @endsection
-
-@section('scripts')
-<script>
-    tinymce.init({
-        selector: '#desc'
-    });
-</script>
-    @endsection

@@ -12,8 +12,7 @@ import Contact from "@/Components/Home/Contact";
 import Faqs from "@/Components/Home/Faqs";
 import Newslatter from "@/Components/Home/Newslatter";
 
-export default function Welcome({ auth }) {
-    console.log(usePage())
+export default function Welcome({ auth, header }) {
     return (
         <AuthenticatedLayout>
             <Head title="Welcome" />

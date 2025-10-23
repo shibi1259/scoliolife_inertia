@@ -1,3 +1,1 @@
-export const getLocaleForRoute = (locale) => {
-    return locale === 'en_US' ? '' : locale;
-};
+export const getLocaleForRoute = (locale) => (locale === "en_US" ? "" : locale);

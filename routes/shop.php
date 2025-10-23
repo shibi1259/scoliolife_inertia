@@ -8,7 +8,7 @@ Route::get('/shop', function () {
     return Inertia::render('Shop/Shop');
 })->name('shop.index');
 
-Route::get('/shop/product/{product}', function ($lang,$product) {
+Route::get('/product/{product}', function ($lang,$product) {
     return Inertia::render('Shop/Product', [
         'product' => $product,'lang' => $lang
     ]);

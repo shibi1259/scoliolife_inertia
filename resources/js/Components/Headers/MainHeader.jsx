@@ -10,12 +10,10 @@ import LangSwitcher from "../LangSwitcher";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import { getLocaleForRoute } from "@/Utils/localeHelper";
 
-export default function MainHeader({ user, languages, menus }) {
-    const { t, tChoice, currentLocale, setLocale, getLocales, isLocale, loading } = useLaravelReactI18n();
+export default function MainHeader({ user, languages, menus, header }) {
+    const { t, currentLocale, loading } = useLaravelReactI18n();
     const lang = currentLocale();
     const currentLang = getLocaleForRoute(lang);
-
-    console.log("menus", menus);
     return (
         <>
             <div className="top-header">
@@ -132,7 +130,7 @@ export default function MainHeader({ user, languages, menus }) {
                     </div>
                 </div>
             </div>
-            <Navbar user={user} menus={menus} />
+            <Navbar user={user} menus={menus} header={header} />
         </>
     );
 }

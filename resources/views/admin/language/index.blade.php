@@ -23,12 +23,14 @@
                                         <tr>
                                             <td>{{ $language->name }}</td>
                                             <td>{{ $language->code }}</td>
-                                            <td><span class="badge text-white {{ $language->status === 'active' ? 'text-bg-success' : 'text-bg-danger' }}">{{ ucfirst($language->status) }}</span></td>
+                                            <td><span
+                                                    class="badge text-white {{ $language->status === 'active' ? 'text-bg-success' : 'text-bg-danger' }}">{{ ucfirst($language->status) }}</span>
+                                            </td>
                                             <td>
-                                                <a href="{{ route('language.edit', $language->id) }}"
+                                                <a href="{{ route('admin.language.edit', $language->id) }}"
                                                     class="btn btn-primary">Edit</a>
-                                                <form action="{{ route('language.destroy', $language->id) }}" method="POST"
-                                                    style="display:inline;">
+                                                <form action="{{ route('admin.language.destroy', $language->id) }}"
+                                                    method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">Delete</button>

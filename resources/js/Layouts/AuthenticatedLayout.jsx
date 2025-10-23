@@ -2,16 +2,14 @@ import Footer from "@/Components/Footer";
 import MainHeader from "@/Components/Headers/MainHeader";
 import { usePage } from "@inertiajs/react";
 
-export default function AuthenticatedLayout({ header, children }) {
+export default function AuthenticatedLayout({ children }) {
     const user = usePage().props.auth.user;
-    const languages = usePage().props.languages
+    const { languages, header, footer, contactDetails, widgets, disclaimer } = usePage().props;
     return (
         <>
-            <MainHeader user={user} languages={languages} />
-
+            <MainHeader user={user} languages={languages} header={header} />
             <main>{children}</main>
-
-            <Footer/>
+            <Footer footer={footer} contactDetails={contactDetails} widgets={widgets} disclaimer={disclaimer} />
         </>
     );
 }

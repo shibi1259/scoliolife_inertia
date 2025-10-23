@@ -1,73 +1,72 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from '@inertiajs/react';
-import { getFooterItems } from '@/API/api';
 import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { getLocaleForRoute } from '@/Utils/localeHelper';
+import FacebookPage from './FacebookPage';
+import { formatWhatsAppNumber } from '@/Utils/Helper';
 
-const Footer = () => {
-   const { t, tChoice, currentLocale, setLocale, getLocales, isLocale, loading } = useLaravelReactI18n();
-    const lang = currentLocale();
-    const currentLang = getLocaleForRoute(lang);
-  const [footer, setFooter] = useState(null)
+const Footer = ({ footer, contactDetails, widgets, disclaimer }) => {
+  const { t, tChoice, currentLocale, setLocale, getLocales, isLocale, loading } = useLaravelReactI18n();
+  const lang = currentLocale();
+  const currentLang = getLocaleForRoute(lang);
 
-  const getFoter = async () => {
-    const res = await getFooterItems(lang);
-    setFooter(res);
-  }
-
-  useEffect(() => {
-    getFoter()
-  }, [lang])
-  console.log(footer)
-  const footerData = [
-    { lable: 'About Us', href: '/about-us' },
-    { lable: 'Services', href: '/services' },
-    { lable: 'Contact', href: '/contact' },
-    { lable: 'FAQ', href: '/faq' },
-    { lable: 'Shop', href: '/shop' },
-  ]
-
-  const contactInfo = [
-    { icon: '/custom_images/widgets/footer-location.webp', text: '123 Main Street, City, Country', title: 'CONTACT INFO' }, ,
-    { icon: '/custom_images/widgets/footer-call.png', text: '+1 234 567 890', title: 'TELEPHONE' },
-    { icon: '/custom_images/widgets/footer-time.png', text: 'Mon - Fri: 9am - 6pm', title: 'OPENING HOURS' },
-  ]
+  console.log("contactDetails", contactDetails);
+  console.log("widgets", widgets);
+  console.log("disclaimer", disclaimer);
   return (
     <footer className="footer-section">
       <div className="container">
         <div className="row">
           <div className="col-sm-5">
             <div className="quick-links">
-              <h3>Quick Links</h3>
+              <h3>{t('bottom-footer')['quick_link']}</h3>
               <ul>
-                <div className="footer_menu">
-                  {footerData.map((foot, index) => {
+                {footer[0].items.map((foot) => (
+                  foot.children.map((child) => {
                     return (
-                      <li className="url-footer" key={index}>
+                      <li className="url-footer" key={child.id}>
                         <img src="/assets/images/right-arrow.webp" alt="right-arrow" />
-                        <a className="nav-link1" href={foot.href}>
-                          {foot.lable}
-                        </a>
+                        <Link className="nav-link1" href={child.link}>
+                          {child.label}
+                        </Link>
                       </li>
                     )
-                  })}
-                </div>
+                  })
+                ))}
               </ul>
+            </div>
+
+            <div>
+              {disclaimer?.map((dis, index) => (
+                <div className="row mt-4 info" key={index}>
+                  <div className="col-sm-12">
+                    <div className="disclaimer-text">
+                      <div className="location-discription time-discription">
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: dis.description,
+                          }}
+                        ></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Contact Info */}
           <div className="col-sm-3">
 
-            {contactInfo.map((contact, index) => {
+            {widgets.map((widget, index) => {
               return (
                 <div className={`row ${index === 0 ? 'info' : 'mt-4'}`} key={index}>
                   <div className="col-sm-12">
                     <div className="contact-info">
-                      <h3>{contact.title}</h3>
+                      <h3>{widget.title}</h3>
                       <div className="location-discription time-discription">
-                        <img src={contact.icon} alt='item-photo' />
-                        <p>{contact.text}</p>
+                        <img src={`/${widget.image}`} alt='item-photo' style={{ width: '40px' }} />
+                        {widget.type === 'whatsapp' ? <p> <a target="_blank" href={`https://api.whatsapp.com/send/?phone=${formatWhatsAppNumber(widget.description)}&text=Hello%21%0A%0A%2AFOR+NEW+PATIENT%2A%0AName%3A%0ARelation+%28if+inquirer+is+not+patient%29%3A%0A%0A%2AENQUIRY%3A%2A%0A&type=phone_number&app_absent=0`}> {widget.description} </a> </p> : <p>{widget.description}</p>}
                       </div>
                     </div>
                   </div>
@@ -77,28 +76,15 @@ const Footer = () => {
           </div>
 
           {/* Facebook Widget */}
-          {/* <div className="col-sm-4">
+          <div className="col-sm-4">
             <div className="facebook-dis">
-              <h3>Like Us on Facebook</h3>
-              <iframe
-                name="f13a2655a47217"
-                width="500px"
-                height="380px"
-                ata-testid="fb:page Facebook Social Plugin"
-                title="fb:page Facebook Social Plugin"
-                frameBorder="0"
-                allowtransparency="true"
-                allowFullScreen="allowFullScreen"
-                allow="encrypted-media"
-                src={`https://www.facebook.com/v2.5/plugins/page.php?adapt_container_width=true&app_id=&channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df318a4edf11138%26domain%3Dscoliolife.com%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fscoliolife.com%252Ffb1839846f28e4%26relation%3Dparent.parent&container_width=400&height=380&hide_cover=true&href=https://www.facebook.com/scoliolife&locale=en_GB&sdk=joey&show_facepile=false&small_header=true&tabs=timeline&width=500`}
-                style={{ border: "none", visibility: "visible", width: "400px", height: "380px" }}
-                className=""
-              ></iframe>
+              <h3>{t('footer-section')['facebook']}</h3>
+              <FacebookPage currentLanguage={lang} />
             </div>
-          </div> */}
+          </div>
         </div>
         <hr className="border-secondary my-4" />
-        <p className="text-center text-muted mb-0">© 2025 Scoliolife. All rights reserved.</p>
+        <p className="text-center mb-0 text-light">© {new Date().getFullYear()} Scoliolife. All rights reserved.</p>
       </div>
     </footer>
   );

@@ -1,15 +1,14 @@
-import ApplicationLogo from "@/Components/ApplicationLogo";
 import Footer from "@/Components/Footer";
 import MainHeader from "@/Components/Headers/MainHeader";
-import { Link, usePage } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
 
 export default function GuestLayout({ children }) {
-    const languages = usePage().props.languages
+    const { languages, header, footer, contactDetails, widgets, disclaimer } = usePage().props;
     return (
         <>
-            <MainHeader languages={languages} />
+            <MainHeader languages={languages} header={header} />
             <main>{children}</main>
-            <Footer />
+            <Footer footer={footer} widgets={widgets} contactDetails={contactDetails} disclaimer={disclaimer} />
         </>
     );
 }

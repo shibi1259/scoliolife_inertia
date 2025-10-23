@@ -14,8 +14,10 @@
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
+        "shibi1259/laravel-menu": "dev-master",
         "spatie/laravel-permission": "^6.21",
-        "tightenco/ziggy": "^2.0"
+        "tightenco/ziggy": "^2.0",
+        "yajra/laravel-datatables": "12.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -75,6 +77,12 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/shibi1259/laravel-menu"
+        }
+    ]
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App;
+use App\Models\Language;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,28 +23,24 @@ class SetLocale
         }
 
         $locale = $request->route('locale');
+        \Log::info('Current locale: ' . $locale);
 
-        // if (in_array($locale, config('app.available_locales'))) {
-        //     App::setLocale($locale);
-        // } else {
-        //     App::setLocale(config('app.locale'));
-        // }
+        $availableLocales = Language::where('status', 'active')->pluck('code')->toArray();
+        $segments = $request->segments();
 
+        \Log::info('Current segment: ', [$segments]);
         if (!$locale || $locale === config('app.locale')) {
-            $segments = $request->segments();
-            if (!empty($segments) && in_array($segments[0], config('app.available_locales'))) {
+            if (!empty($segments) && in_array($segments[0], $availableLocales)) {
                 array_shift($segments);
                 return redirect()->to('/' . implode('/', $segments));
             }
-            
             App::setLocale(config('app.locale'));
-
-        } elseif (in_array($locale, config('app.available_locales'))) {
+        } elseif (in_array($locale, $availableLocales)) {
             App::setLocale($locale);
         } else {
-            abort(404);
+            return redirect()->route('home', ['locale' => app()->getLocale()]);
         }
-     
+
         if (function_exists('setlocale')) {
             try {
                 setlocale(LC_TIME, $locale . '_' . strtoupper($locale), $locale);

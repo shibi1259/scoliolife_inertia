@@ -1,4 +1,7 @@
 import React, { Fragment, useState } from 'react';
+import { useForm } from '@inertiajs/react';
+import { getLocaleForRoute } from '@/Utils/localeHelper';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 const ContactForm = (props) => {
 	const {
@@ -6,49 +9,44 @@ const ContactForm = (props) => {
 		newsletter = true, title = '', icons = false
 	} = props;
 
+	const { currentLocale } = useLaravelReactI18n();
+	const lang = currentLocale();
+	const currentLang = getLocaleForRoute(lang);
+
 	const [files, setFiles] = useState([{ id: 0, file: null, filename: '' }]);
-	const [checkBox, setCheckbox] = useState(true);
-	const [loader, setLoader] = useState(false);
-
-	const triggerSubmission = async (data) => {
-		let formData = new FormData();
-
-		for (var i = 0; i < files.length; i++) {
-			if (files[i] && files[i].file) {
-				formData.append('files[]', files[i].file);
-			}
-		}
-
-		setLoader(true);
-		let _lang = 'en';
-		if (!currentLanguage.includes('en')) {
-			let _arr = currentLanguage.split('_');
-			_lang = _arr[1].toLowerCase();
-		}
-		formData.append('name', data.name);
-		formData.append('email_address', data.email_address);
-		formData.append('phone_number', data.phone_number);
-		formData.append('contact_enquiry', data.contact_enquiry);
-		formData.append('country', data.country);
-		formData.append('description', data.description);
-		formData.append('lang', currentLanguage);
-		formData.append('language', _lang);
-		formData.append('form_type', type);
-		formData.append('subscribe', (typeof data.subscribe !== 'undefined') ? 'yes' : 'no');
-		formData.append('file', '');
-
-		await enquiry(formData, false);
-		setLoader(false);
-		navigate(`${urlLanguage}/thank-you`);
-		setFiles([{ id: 0, file: null, filename: '' }]);
-	}
+	const { data, setData, post, processing, reset, errors } = useForm({
+		name: '',
+		email_address: '',
+		phone_number: '',
+		contact_enquiry: '',
+		country: '',
+		description: '',
+		subscribe: true,
+		files: [],
+		form_type: type,
+	});
 
 	const handleFileChange = (index, event) => {
-		const newFiles = [...files];
 		const file = event.target.files[0];
-		newFiles[index] = { id: newFiles[index].id, file: file, filename: file ? file.name : '' };
+		const newFiles = [...files];
+		newFiles[index] = { id: newFiles[index].id, file, filename: file ? file.name : '' };
 		setFiles(newFiles);
-	}
+		setData("files", newFiles.map(f => f.file).filter(f => f !== null));
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		console.log(data);
+
+		post(route('contacts.store', { locale: currentLang }), {
+			forceFormData: true,
+			onSuccess: () => {
+				reset();
+				setFiles([{ id: 0, file: null, filename: '' }]);
+			}
+		});
+	};
+
 
 	const addFileField = () => {
 		const newId = files.length;
@@ -58,10 +56,10 @@ const ContactForm = (props) => {
 	const removeFileField = (id) => {
 		setFiles(files.filter((file) => file.id !== id));
 	}
-
+	console.log('errors', errors)
 	const AppendField = ({ index = 0, file }) => {
 		return (
-			<Fragment>
+			<>
 				<input
 					size="40"
 					className="form-control"
@@ -76,20 +74,22 @@ const ContactForm = (props) => {
 					<span className="box">Choose Image</span>
 					<p>{(file.filename) ? file.filename : 'No Image'}</p>
 				</div>
-			</Fragment>
+			</>
 		)
 	}
 
 	return (
-		<Fragment>
-			<form className='consultation_form'>
+		<>
+			<form className='consultation_form' onSubmit={(e) => handleSubmit(e)} encType='multipart/form-data'>
 				{title && <h6>{title}</h6>}
 
 				{(optionPosition === 'top') ? (
-					<Fragment>
+					<div>
 						<select
 							id="select"
 							defaultValue=""
+							className="form-control"
+							onChange={e => setData('contact_enquiry', e.target.value)}
 						>
 							<option value="" disabled>Select an option</option>
 							<option value="General Enquiry">General Enquiry</option>
@@ -98,7 +98,8 @@ const ContactForm = (props) => {
 							<option value="Media Enquiry">Media Enquiry</option>
 							<option value="Others">Others</option>
 						</select>
-					</Fragment>
+						{errors.contact_enquiry && <div className="error" style={{ color: 'red' }}>{errors.contact_enquiry}</div>}
+					</div>
 				) : null}
 
 				<div className="form-design">
@@ -109,7 +110,9 @@ const ContactForm = (props) => {
 								type="text"
 								className="form-control"
 								placeholder='Name'
+								onChange={e => setData('name', e.target.value)}
 							/>
+							{errors.name && <div className="error" style={{ color: 'red' }}>{errors.name}</div>}
 							{icons && <span className="icon-form-home"><img src={'/images/form user.webp'} alt='form-user' /></span>}
 						</div>
 
@@ -119,7 +122,9 @@ const ContactForm = (props) => {
 								type="email"
 								placeholder="Email"
 								className="form-control"
+								onChange={e => setData('email_address', e.target.value)}
 							/>
+							{errors.email_address && <div className="error" style={{ color: 'red' }}>{errors.email_address}</div>}
 							{icons && <span className="icon-form-home"><img src={'/images/form email.webp'} alt='form-email' /></span>}
 						</div>
 
@@ -129,7 +134,9 @@ const ContactForm = (props) => {
 								type="tel"
 								placeholder='Contact Number'
 								className="form-control"
+								onChange={e => setData('phone_number', e.target.value)}
 							/>
+							{errors.phone_number && <div className="error" style={{ color: 'red' }}>{errors.phone_number}</div>}
 							{icons && <span className="icon-form-home"><img src={'/images/form number.webp'} alt='form-number' /></span>}
 						</div>
 
@@ -139,14 +146,16 @@ const ContactForm = (props) => {
 								type="text"
 								className="form-control"
 								placeholder='Country'
+								onChange={e => setData('country', e.target.value)}
 							/>
+							{errors.country && <div className="error" style={{ color: 'red' }}>{errors.country}</div>}
 							{icons && <span className="icon-form-home"><img src={'/images/form country.webp'} alt='form-country' /></span>}
 						</div>
 
 						{(optionPosition !== 'top') ? (
 							<div className="col-md-12">
 								{labels && <label htmlFor="inputCity" className="form-label">Select an Option</label>}
-								<select className="form-control" defaultValue="">
+								<select className="form-control" defaultValue="" onChange={e => setData('contact_enquiry', e.target.value)}>
 									<option value="" disabled>Select an option</option>
 									<option value="General Enquiry">General Enquiry</option>
 									<option value="Scoliosis Program Enquiry">Scoliosis Program Enquiry</option>
@@ -165,7 +174,9 @@ const ContactForm = (props) => {
 								name="description"
 								placeholder="Message"
 								defaultValue=""
+								onChange={e => setData('description', e.target.value)}
 							></textarea>
+							{errors.description && <div className="error" style={{ color: 'red' }}>{errors.description}</div>}
 						</div>
 
 						<div className="col-md-12 file-options">
@@ -203,8 +214,9 @@ const ContactForm = (props) => {
 									type="checkbox"
 									value="1"
 									id="subscribe_check"
-									checked={checkBox}
-									onChange={() => setCheckbox(!checkBox)}
+									checked={data.subscribe}
+									onChange={e => setData('subscribe', e.target.checked)}
+
 								/>
 
 								<label htmlFor="subscribe_check" className="form-label">Newsletter</label>
@@ -214,7 +226,7 @@ const ContactForm = (props) => {
 						<div className="col-md-12 submit-btn contact-us">
 							<button type="submit" className="btn btn-primary">
 								<span>Send</span>
-								{loader && (
+								{processing && (
 									<div className="btn-loader">
 										<img src={'/images/button-loader.svg'} alt="loader-button" />
 									</div>
@@ -224,7 +236,7 @@ const ContactForm = (props) => {
 					</div>
 				</div>
 			</form>
-		</Fragment>
+		</>
 	);
 };
 

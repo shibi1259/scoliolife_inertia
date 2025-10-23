@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\SetLocale;
-
 
 Route::prefix("admin")->name('admin.')->middleware(['web'])->group(function () {
 
@@ -12,7 +14,16 @@ Route::prefix("admin")->name('admin.')->middleware(['web'])->group(function () {
     Route::middleware(['admin'])->group(function () {
         Route::get('/dashboard', fn() => view('admin.dashboard'))->name('index');
         Route::resource('language', LanguageController::class);
+
+        Route::resource('users', UserController::class);
+        Route::resource('roles', RolesController::class);
+        Route::resource('contacts', ContactController::class);
+        Route::get('menu', fn() => view('admin.menu.index'))->name('menu.index');
+
+        Route::resource('setting', SettingController::class);
+        require __DIR__ . '/admin_articles.php';
     });
+
 });
 
 

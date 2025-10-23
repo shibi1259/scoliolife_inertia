@@ -1,105 +1,194 @@
 import { Link } from "@inertiajs/react";
 import React, { Fragment } from "react";
 
-const MenuItems = ({ items, currentLang, toggleMenu, handleMouseEnter, handleMouseLeave, openMenus }) => {
-
+// Mobile Menu Component for nested items
+const MobileMenus = ({ item, scrollToTop, currentLanguage }) => {
     const getLink = (link) => {
-        return `/${currentLang}/${link}`.replace(/\/+/g, '/');
+        if (!link || link === '#') return '#';
+        return `/${currentLanguage}/${link}`.replace(/\/+/g, '/');
     };
 
     return (
         <Fragment>
-            {items.map((item, index) => {
-                const hasChildren = item.child_recursive.length > 0;
-
-                return (
-                    <Fragment key={item.id}>
-                        {!hasChildren ? (
-                            <Link
-                                className="nav-link"
-                                href={getLink(item.link)}
-                                key={index}
-                            >
-                                {item.label}
-                                {item.icon && <img src={item.icon} alt="" />}
-                            </Link>
-                        ) : (
-                            <li
-                                key={index}
-                                onMouseEnter={() => handleMouseEnter(item.id)}
-                                onMouseLeave={() => handleMouseLeave(item.id)}
-                                className={`nav-item dropdown dropdown-${item.class}`}
-                            >
-                                <Link
-                                    className="nav-link dropdown-toggle"
-                                    id={`dropdownMenuButton${item.class}`}
-                                    role="button"
-                                    aria-haspopup="true"
-                                    aria-expanded={openMenus[item.id] ? "true" : "false"}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        toggleMenu(item.id);
-                                    }}
-                                >
-                                    {item.label}
-                                    {item.icon && <img src={item.icon} alt="" />}
-                                </Link>
-
-                                {openMenus[item.id] && (
-                                    <div
-                                        className={`dropdown-menu sm-menu-${item.class}`}
-                                        aria-labelledby={`navbarDropdown${item.class}`}
-                                    >
-                                        <div className="row test2 qwe">
-                                            {item.child_recursive.map((child) => (
-                                                <Fragment key={child.id}>
-                                                    {child.child_recursive.length <= 0 ? (
-                                                        <div
-                                                            className={`col-sm-12 col-lg-12 mb-12 ${child.class}`}
-                                                        >
-                                                            <ul>
-                                                                <li>
-                                                                    <Link
-                                                                        href={getLink(child.link)}
-                                                                        onClick={() => toggleMenu(item.id)}
-                                                                    >
-                                                                        {child.label}
-                                                                        {child.icon && <img src={child.icon} alt="" />}
-                                                                    </Link>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    ) : (
-                                                        <div
-                                                            className={`col-sm-4 col-lg-4 mb-4 ${child.class}`}
-                                                        >
-                                                            <p>{child.label}</p>
-                                                            {child.child_recursive.map((subChild) => (
-                                                                <Link
-                                                                    key={subChild.id}
-                                                                    className={`dropdown-item ${subChild.id}`}
-                                                                    href={getLink(subChild.link)}
-                                                                    onClick={() => toggleMenu(item.id)}
-                                                                >
-                                                                    {subChild.icon && (
-                                                                        <img src={subChild.icon} alt="" />
-                                                                    )}
-                                                                    {subChild.label}
-                                                                </Link>
-                                                            ))}
-                                                        </div>
-                                                    )}
-                                                </Fragment>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                            </li>
-                        )}
-                    </Fragment>
-                );
-            })}
+            <p>{item.label}</p>
+            {item.children && item.children.map((submenuItem) => (
+                <Link
+                    key={submenuItem.id}
+                    className={`dropdown-item ${submenuItem.class || ''}`}
+                    href={getLink(submenuItem.link)}
+                    onClick={scrollToTop}
+                >
+                    {submenuItem.icon && <img src={submenuItem.icon} alt="" />}
+                    {submenuItem.label}
+                </Link>
+            ))}
         </Fragment>
+    );
+};
+
+// Desktop Menu Component
+const DesktopMenus = (props) => {
+    const {
+        menuItem,
+        currentLanguage,
+        scrollToTop,
+        handleMouseEnter,
+        toggleMenu,
+        handleMouseLeave,
+        index,
+        openMenus,
+        isMobile,
+        mobileScreen
+    } = props;
+
+    const getLink = (link) => {
+        if (!link || link === '#') return '#';
+        return `/${currentLanguage}/${link}`.replace(/\/+/g, '/');
+    };
+
+    const handleClicking = (id = null) => {
+        scrollToTop();
+        toggleMenu(id);
+    };
+
+    return (
+        <Fragment>
+            {(!menuItem.children || menuItem.children.length <= 0) ? (
+                <Link
+                    className="nav-link"
+                    href={getLink(menuItem.link)}
+                    onClick={scrollToTop}
+                    key={index}
+                >
+                    {menuItem.label}
+                </Link>
+            ) : (
+                <li
+                    key={index}
+                    onMouseEnter={() => handleMouseEnter(menuItem.id)}
+                    onMouseLeave={() => handleMouseLeave(menuItem.id)}
+                    className={`nav-item dropdown dropdown-${menuItem.class || ''}`}
+                >
+                    <Link
+                        className="nav-link dropdown-toggle"
+                        href="#"
+                        id={`dropdownMenuButton${menuItem.class}`}
+                        role="button"
+                        aria-haspopup="true"
+                        aria-expanded={openMenus[menuItem.id] ? "true" : "false"}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            toggleMenu(menuItem.id);
+                        }}
+                    >
+                        {menuItem.label}
+                        {menuItem.icon && <img src={menuItem.icon} alt="" />}
+                    </Link>
+
+                    {openMenus[menuItem.id] && (
+                        <div
+                            className={`dropdown-menu sm-menu-${menuItem.class || ''}`}
+                            aria-labelledby={`navbarDropdown${menuItem.class}`}
+                        >
+                            <div className="row test2 qwe">
+                                {menuItem.children.map((item) => (
+                                    <Fragment key={item.id}>
+                                        {(!item.children || item.children.length <= 0) ? (
+                                            <div className={`col-sm-12 col-lg-12 mb-12 ${item.class || ''}`}>
+                                                <ul>
+                                                    <li>
+                                                        <Link
+                                                            href={getLink(item.link)}
+                                                            onClick={() => handleClicking(menuItem.id)}
+                                                        >
+                                                            {item.label}
+                                                        </Link>
+                                                        {item.icon && <img src={item.icon} alt="" />}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        ) : (
+                                            <div className={`col-sm-4 col-lg-4 mb-4 ${item.class || ''}`}>
+                                                {isMobile ? (
+                                                    <MobileMenus
+                                                        item={item}
+                                                        scrollToTop={() => handleClicking(menuItem.id)}
+                                                        currentLanguage={currentLanguage}
+                                                    />
+                                                ) : (
+                                                    <Fragment>
+                                                        {item.link && item.link !== '#' ? (
+                                                            <Link
+                                                                href={getLink(item.link)}
+                                                                className="dropdown-heading-link"
+                                                                onClick={() => handleClicking(menuItem.id)}
+                                                            >
+                                                                {item.label}
+                                                            </Link>
+                                                        ) : (
+                                                            <p>{item.label}</p>
+                                                        )}
+                                                        {item.children.map((submenuItem) => (
+                                                            <Link
+                                                                key={submenuItem.id}
+                                                                className={`dropdown-item ${submenuItem.class || ''}`}
+                                                                href={getLink(submenuItem.link)}
+                                                                onClick={() => handleClicking(menuItem.id)}
+                                                            >
+                                                                {submenuItem.icon && <img src={submenuItem.icon} alt="" />}
+                                                                {submenuItem.label}
+                                                            </Link>
+                                                        ))}
+                                                    </Fragment>
+                                                )}
+                                            </div>
+                                        )}
+                                    </Fragment>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </li>
+            )}
+        </Fragment>
+    );
+};
+
+/**
+ * Main Menu Wrapper Component
+ */
+const MenuItems = (props) => {
+    const {
+        items,
+        currentLang,
+        scrollToTop,
+        handleMouseEnter,
+        toggleMenu,
+        handleMouseLeave,
+        openMenus,
+        isMobile,
+        mobileScreen
+
+    } = props;
+
+    return (
+        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+            {items.map((menuItem, index) => (
+                <DesktopMenus
+                    key={menuItem.id}
+                    menuItem={menuItem}
+                    currentLanguage={currentLang}
+                    scrollToTop={scrollToTop}
+                    handleMouseEnter={handleMouseEnter}
+                    toggleMenu={toggleMenu}
+                    handleMouseLeave={handleMouseLeave}
+                    index={index}
+                    openMenus={openMenus}
+                    isMobile={isMobile}
+                    mobileScreen={mobileScreen}
+                />
+            ))}
+        </ul>
     );
 };
 

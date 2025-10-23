@@ -2,10 +2,12 @@
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="navbar-brand-wrapper d-flex justify-content-center">
         <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
-            <a class="navbar-brand brand-logo" href="index.html"><img class="w-100" src="{{ asset('logo.png') }}"
-                    alt="logo" /> </a>
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img
-                    src="{{ asset('assets/images/logo-mini.svg') }}" alt="logo" /></a>
+            <a class="navbar-brand brand-logo" href="{{ route('admin.index') }}">
+                {{-- <img class="w-100" src="{{ asset('logo.png') }}" alt="logo" /> --}}
+            </a>
+            <a class="navbar-brand brand-logo-mini" href="{{ route('admin.index') }}">
+                <img src="{{ asset('assets/images/logo-mini.svg') }}" alt="logo" />
+            </a>
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                 <span class="typcn typcn-th-menu"></span>
             </button>
@@ -15,74 +17,40 @@
         <ul class="navbar-nav me-lg-2">
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-                    <img src="{{ asset('assets/images/faces/face5.jpg') }}" alt="profile" />
+                    <img src="{{ Auth::user()->info ? asset('storage/' . Auth::user()->info?->profile) : asset('/images/placeholder.png') }}"
+                        alt="profile" />
                     <span class="nav-profile-name">{{ Auth::user()->name }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                    <a class="dropdown-item" href="{{ route('admin.users.edit', Auth::user()->id) }}">
+                        <i class="fa-solid fa-user text-primary"></i>
+                        Profile
+                    </a>
                     <a class="dropdown-item">
-                        <i class="typcn typcn-cog-outline text-primary"></i>
+                        <i class="fa-solid fa-cog text-primary"></i>
                         Settings
                     </a>
                     <form method='POST' action="{{ route('admin.auth.logout') }}">
                         @csrf
                         <button type="submit" class="dropdown-item">
-                            <i class="typcn typcn-eject text-primary"></i>
+                            <i class="fa-solid fa-arrow-right-from-bracket text-primary"></i>
                             Logout
                         </button>
                     </form>
                 </div>
             </li>
             <li class="nav-item nav-user-status dropdown">
-                <p class="mb-0">Last login was {{ Carbon\Carbon::parse(Auth::user()->last_login)->diffForHumans() }}.</p>
+                <p class="mb-0">Last login was {{ Carbon\Carbon::parse(Auth::user()->last_login)->diffForHumans() }}.
+                </p>
             </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item dropdown">
                 <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
-                    id="messageDropdown" href="#" data-bs-toggle="dropdown">
-                    <i class="typcn typcn-mail mx-0"></i>
+                    href="{{ route('home', ['locale' => app()->getLocale()]) }}" target="_blank">
+                    <i class="typcn typcn-home mx-0"></i>
                     <span class="count"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                    aria-labelledby="messageDropdown">
-                    <p class="mb-0 fw-normal float-start dropdown-header">Messages</p>
-                    <a class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <img src="{{ asset('assets/images/faces/face4.jpg') }}" alt="image" class="profile-pic">
-                        </div>
-                        <div class="preview-item-content flex-grow">
-                            <h6 class="preview-subject ellipsis fw-normal">David Grey
-                            </h6>
-                            <p class="fw-light small-text text-muted mb-0">
-                                The meeting is cancelled
-                            </p>
-                        </div>
-                    </a>
-                    <a class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <img src="{{ asset('assets/images/faces/face2.jpg') }}" alt="image" class="profile-pic">
-                        </div>
-                        <div class="preview-item-content flex-grow">
-                            <h6 class="preview-subject ellipsis fw-normal">Tim Cook
-                            </h6>
-                            <p class="fw-light small-text text-muted mb-0">
-                                New product launch
-                            </p>
-                        </div>
-                    </a>
-                    <a class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <img src="{{ asset('assets/images/faces/face3.jpg') }}" alt="image" class="profile-pic">
-                        </div>
-                        <div class="preview-item-content flex-grow">
-                            <h6 class="preview-subject ellipsis fw-normal"> Johnson
-                            </h6>
-                            <p class="fw-light small-text text-muted mb-0">
-                                Upcoming board meeting
-                            </p>
-                        </div>
-                    </a>
-                </div>
             </li>
             <li class="nav-item dropdown me-0">
                 <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"

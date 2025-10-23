@@ -2,6 +2,7 @@ import Banner from "@/Components/Banner";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import React from "react";
 import Form from "./Form";
+import ContactForm from './../../Components/Forms/ContactForm';
 
 const Contact = () => {
     return (
@@ -130,7 +131,8 @@ const Contact = () => {
                         </h3>
                         <div className="enquiry-hidden business-form ">
                             <div className="enquiry-form">
-                                <Form />
+                                {/* <Form /> */}
+                                <ContactForm />
                             </div>
                         </div>
                     </div>

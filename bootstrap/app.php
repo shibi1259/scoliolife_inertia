@@ -28,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
             }
             return null;
         });
+        
         $middleware->redirectGuestsTo(fn(Request $request) => $request->routeIs('admin.*') ? route('admin.auth.login') : route('login'));
     })
     ->withExceptions(function (Exceptions $exceptions) {
