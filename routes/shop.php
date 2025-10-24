@@ -8,9 +8,10 @@ Route::get('/shop', function () {
     return Inertia::render('Shop/Shop');
 })->name('shop.index');
 
-Route::get('/product/{product}', function ($lang,$product) {
+Route::get('/product/{product}', function (...$args) {
+    app()->getLocale() === 'en_US' ? [$product] = $args : [$locale, $product] = $args;
     return Inertia::render('Shop/Product', [
-        'product' => $product,'lang' => $lang
+        'product' => $product , 'lang' => $locale,
     ]);
 })->name('shop.product');
 

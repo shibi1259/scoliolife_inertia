@@ -1,24 +1,15 @@
+import axios from "axios";
+
 const API = import.meta.env.VITE_APP_API_URL;
-export const getProducts = async (lang) => { 
+export const getProducts = async (lang) => {
     const response = await fetch(`${API}/products/filter/${lang}`);
     const data = await response.json();
     return data;
-}
+};
 
-export const getLanguages = async () => {
-    const response = await fetch(`${API}/languages`);
-    const data = await response.json();
-    return data;
-}
-
-export const getMenuItems = async (language) => {
-    const response = await fetch(`${API}/menuitem/header/${language}`);
-    const data = await response.json();
-    return data;
-}
-
-export const getFooterItems = async (language) => {
-    const response = await fetch(`${API}/menuitem/footer/${language}`);
-    const data = await response.json();
-    return data;
-}
+export const getProduct = async (slug, lang, auth) => {
+    const params = auth && auth.id ? `?user=${auth?.id}` : "";
+    console.log({slug,lang,auth});
+    const response = await axios.get(`${API}/products/${slug}/${lang}${params}`);
+    return response.data;
+};

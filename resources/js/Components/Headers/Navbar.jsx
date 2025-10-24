@@ -1,10 +1,9 @@
 import { Link } from "@inertiajs/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PiUserCircle } from "react-icons/pi";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import { getLocaleForRoute } from "@/Utils/localeHelper";
-import { getMenuItems } from "@/API/api";
 import MenuItems from "./MenuItems";
 
 const Navbar = ({ user, header }) => {
