@@ -1,6 +1,6 @@
 import '../css/app.css';
 import './bootstrap';
-
+import '@smastrom/react-rating/style.css'
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot, hydrateRoot } from 'react-dom/client';

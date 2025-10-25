@@ -16,6 +16,8 @@ const Shop = () => {
     const { t, tChoice, currentLocale, setLocale, getLocales, isLocale } = useLaravelReactI18n();
        const lang = currentLocale();
         const currentLang = getLocaleForRoute(lang);
+        console.log(lang);
+        
     const fetchProducts = async (lang) => {
         try {
             const data = await getProducts(lang);
@@ -29,8 +31,8 @@ const Shop = () => {
     };
 
     useEffect(() => {
-        fetchProducts(currentLang);
-    }, [currentLang]);
+        fetchProducts(lang);
+    }, [lang]);
 
     const handleSort = (option) => {
         let sorted = [...products];

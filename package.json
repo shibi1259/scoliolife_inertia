@@ -22,6 +22,7 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
+        "@smastrom/react-rating": "^1.5.0",
         "laravel-react-i18n": "^2.0.5",
         "react-facebook": "^9.0.12",
         "react-icons": "^5.5.0",

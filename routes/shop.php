@@ -11,7 +11,7 @@ Route::get('/shop', function () {
 Route::get('/product/{product}', function (...$args) {
     app()->getLocale() === 'en_US' ? [$product] = $args : [$locale, $product] = $args;
     return Inertia::render('Shop/Product', [
-        'product' => $product , 'lang' => $locale,
+        'product' => $product , 'lang' => $locale ?? null,
     ]);
 })->name('shop.product');
 
