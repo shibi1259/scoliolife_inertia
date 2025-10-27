@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import ReactPlayer from "react-player";
 import { BsPlusLg } from "react-icons/bs";
 import { HiMinus } from "react-icons/hi2";
@@ -11,11 +11,18 @@ import { getProduct } from "@/API/api";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import Buttons from "@/Components/Shop/Product/Buttons";
 import Description from './../../Components/Shop/Product/Description';
+import { Rating } from "@smastrom/react-rating";
+import WishListButton from "@/Components/Shop/Product/WishListButton";
+import Price from "@/Components/Shop/Product/Price";
+import Loader from "@/Components/Loader";
+import CurrencyConverter from "@/Components/Shop/Product/CurrencyConverter";
+import AttributeDropdown from "@/Components/Shop/Product/AttributeDropdown";
 
 const Product = ({ product = "Demo product", auth }) => {
   const [productDetail, setProductDetail] = useState(null);
   const { t, currentLocale } = useLaravelReactI18n();
   const lang = currentLocale();
+  const { product: slug } = usePage().props;
   const [quantity, setQuantity] = useState(1);
   const [read, setRead] = useState(false);
   const [awsData, setAwsData] = useState(false);
@@ -48,20 +55,43 @@ const Product = ({ product = "Demo product", auth }) => {
 
   }, [auth, auth?.id])
 
+  // const calculatePrice = (product) => {
+  //   if (!product?.price) return 0;
 
+  //   let finalPrice = parseFloat(product.price);
+
+  //   if (slug === "exercise-dvd") {
+  //     if (customized === "Yes" && tool === "USB") {
+  //       finalPrice = 80;
+  //     } else if (customized === "Yes" && tool === "DVD") {
+  //       finalPrice += 55;
+  //     } else if (customized === "No") {
+  //       finalPrice = itemData.price;
+  //     } else {
+  //       finalPrice = itemData.price; // fallback/default for this product
+  //     }
+  //   } else if (slug !== "scoliosis-exercises") {
+  //     if (customized === "Yes") {
+  //       finalPrice += 55;
+  //     }
+  //   }
+    
+  //   return finalPrice;
+  // };
+console.log(usePage().props)
   const handleMinusQuantity = () => setQuantity((prev) => Math.max(1, prev - 1));
   const handlePlusQuantity = () => setQuantity((prev) => prev + 1);
   console.log(productDetail)
   console.log(awsData)
-  // if (!productDetail)
-  //   return (
-  //     <AuthenticatedLayout>
-  //       <Sidebar />
-  //     </AuthenticatedLayout>
-  //   );
+  if (!productDetail)
+    return (
+      <AuthenticatedLayout>
+        <Loader />
+      </AuthenticatedLayout>
+    );
 
   const hasAwsProducts = productDetail?.aws3_bucket_product?.length > 0;
-
+  const averageRating = productDetail?.product_review?.length ? productDetail.product_review.reduce((sum, review) => sum + Number(review.rate), 0) / productDetail.product_review.length : 0;
   return (
     <AuthenticatedLayout>
       <Banner title={product} />
@@ -69,44 +99,52 @@ const Product = ({ product = "Demo product", auth }) => {
       <div className="container">
 
         {!hasAwsProducts ? (
-
-
-
           <div className="product-section">
-            {/* <div className="container"> */}
             <div className="row">
               <ImageSlider productDetail={productDetail} />
               <div className="col-md-5">
                 <div className="product-text">
                   <h2>{productDetail?.title}</h2>
 
-                  <div className="rating-wishlist-div">
-                    <div className="product-star">
-                      <p className="star">★★★★★</p>
-                      <p>({productDetail?.product_review?.length || 0} {t('product.customer_reviews')})</p>
-                    </div>
-                    <div className="wishlist-icon">
-                      <img src="/assets/images/heart.png" alt="Wishlist" width="24" />
-                    </div>
-                  </div>
-
-                  <div className="product-price-view">
-                    <span className="price">${parseFloat(productDetail?.price).toFixed(2)}</span>
-                  </div>
-                  <span className="approx_format">Approx. SGD {(parseFloat(productDetail?.price) * 1.36).toFixed(2)}</span>
+                  {(productDetail?.price || productDetail?.price > 0) && (
+                    <>
+                      <div className="rating-wishlist-div">
+                        <div className="product-star">
+                          <div className="star">
+                            <Rating
+                              style={{ maxWidth: 100 }}
+                              halfFillMode="svg"
+                              className="star-product"
+                              value={averageRating}
+                              readOnly={true}
+                            />
+                          </div>
+                          <p>
+                            ({productDetail?.product_review?.length}{t('product')['customer_reviews']})
+                          </p>
+                        </div>
+                        <WishListButton product={productDetail} extraClass="prod-wishlist" />
+                      </div>
+                      <Price price={productDetail?.price} />
+                      <span className="approx_format">
+                        <CurrencyConverter price={productDetail.price} />
+                      </span>
+                    </>
+                  )}
 
                   <p dangerouslySetInnerHTML={{ __html: productDetail?.description }}></p>
 
                   {productDetail?.product_type === "variable-product" && (
-                    <div className="product-dropdown">
-                      <label htmlFor="size">Select Size:</label>
-                      <select id="size" name="size">
-                        <option>Select size</option>
-                        <option>Small</option>
-                        <option>Medium</option>
-                        <option>Large</option>
-                      </select>
-                    </div>
+                    // <div className="product-dropdown">
+                    //   <label htmlFor="size">Select Size:</label>
+                    //   <select id="size" name="size">
+                    //     <option>Select size</option>
+                    //     <option>Small</option>
+                    //     <option>Medium</option>
+                    //     <option>Large</option>
+                    //   </select>
+                    // </div>
+                     <AttributeDropdown attributes={productDetail?.groupedProductAttributes} calculatedPrice={productDetail.price} />
                   )}
 
                   <p style={{ color: "red" }}>Please select a size before adding to cart.</p>
@@ -123,13 +161,10 @@ const Product = ({ product = "Demo product", auth }) => {
                     </span>
                   </div>
 
-                  {/* <button className="btn btn-primary mt-3">Add to Cart</button>
-                <button className="btn btn-secondary mt-2">Buy Now</button> */}
                   <Buttons
 
                     key={productDetail?.id}
                     id={productDetail?.id}
-
                     price={productDetail?.price}
                     slug={productDetail?.slug}
 
@@ -137,11 +172,11 @@ const Product = ({ product = "Demo product", auth }) => {
                   // onBuyNowClick={onBuyNowClick}
                   // consultationSize={consultationSize}
 
-
                   />
+
                   <p className="sku">SKU: {productDetail?.product_sku}</p>
                   <span className="Category-product">
-                    {t('product.category')} :
+                    {t('product')['category']} :
                     <Link href={`/product-category/${productDetail?.cat_info?.slug}`}>
                       {productDetail?.cat_info?.title}
                     </Link>
