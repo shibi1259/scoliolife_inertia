@@ -47,12 +47,14 @@
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
                 <i class="typcn typcn-th-small-outline menu-icon"></i>
-                <span class="menu-title">Tables</span>
+                <span class="menu-title">Products</span>
                 <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="tables">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Basic table</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.product.index') }}">All Products</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.product.create') }}">Add Products</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.product.category.index') }}">Categories</a></li>
                 </ul>
             </div>
         </li>

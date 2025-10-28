@@ -30,10 +30,10 @@ const AttributeDropdown = ({ attributes = {}, onSelectSize = () => null , calcul
       <div className="add_language_dropdown">
         <label htmlFor={name}>{label}</label>
         <select id={name} onChange={(e) => handleChange(e, name)}>
-          <option value="">{t("product_dropdown.choose_an_option")}</option>
+          <option value="">{t("product_dropdown")['choose_an_option']}</option>
           {options.map((opt, i) => (
-            <option key={i} value={translateKey ? t(`product_dropdown.${opt}`) : opt}>
-              {translateKey ? t(`product_dropdown.${opt}`) : opt}
+            <option key={i} value={translateKey ? t(`product_dropdown`)[opt] : opt}>
+              {translateKey ? t(`product_dropdown`)[opt] : opt}
             </option>
           ))}
         </select>
@@ -44,38 +44,38 @@ const AttributeDropdown = ({ attributes = {}, onSelectSize = () => null , calcul
     <>
       {/* Core Dropdowns */}
       <Dropdown
-        label={t("product_dropdown.customized_report")}
+        label={t("product_dropdown")['customized_report']}
         name="Customized Report"
         options={attributes["Customized Report"]}
       />
       <Dropdown
-        label={t("product_dropdown.varition_language")}
+        label={t("product_dropdown")['varition_language']}
         name="Language"
         options={attributes.Language}
       />
       <Dropdown
-        label={t("product_dropdown.tool")}
+        label={t("product_dropdown")['tool']}
         name="Tool"
         options={attributes.Tool}
       />
       <Dropdown
-        label={t("product_dropdown.gender")}
+        label={t("product_dropdown")['gender']}
         name="Gender"
         options={attributes.Gender}
         translateKey
       />
       <Dropdown
-        label={t("product_dropdown.height")}
+        label={t("product_dropdown")['height']}
         name="Height"
         options={attributes.Height}
       />
       <Dropdown
-        label={t("product_dropdown.weight")}
+        label={t("product_dropdown")['weight']}
         name="Weight"
         options={attributes.Weight}
       />
       <Dropdown
-        label={t("product_dropdown.size")}
+        label={t("product_dropdown")['size']}
         name="Size"
         options={
           attributes["ScolioInsole Size"] ||
@@ -83,17 +83,17 @@ const AttributeDropdown = ({ attributes = {}, onSelectSize = () => null , calcul
         }
       />
       <Dropdown
-        label={t("product_dropdown.size")}
+        label={t("product_dropdown")['size']}
         name="Support Knee Guard Size"
         options={attributes["Support Knee Guard Size"]}
       />
       <Dropdown
-        label={t("product_dropdown.size")}
+        label={t("product_dropdown")['size']}
         name="ScolioPosture Corrector Size"
         options={attributes["ScolioPosture Corrector Size"]}
       />
       <Dropdown
-        label={t("product_dropdown.consultation")}
+        label={t("product_dropdown")['consultation']}
         name="Consultation Type"
         options={attributes["Consultation Type"]}
       />
@@ -101,7 +101,7 @@ const AttributeDropdown = ({ attributes = {}, onSelectSize = () => null , calcul
       {/* ✅ Image upload when customized report is Yes */}
       {customizedSelected && (
         <div className="wau_wrapper_div">
-          <label htmlFor="wau_file_addon">{t("product_dropdown.upload_an_image")}:</label>
+          <label htmlFor="wau_file_addon">{t("product_dropdown")["upload_an_image:"]}</label>
           <input
             type="file"
             id="wau_file_addon"

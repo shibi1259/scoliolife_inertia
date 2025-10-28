@@ -75,10 +75,10 @@ const Product = ({ product = "Demo product", auth }) => {
   //       finalPrice += 55;
   //     }
   //   }
-    
+
   //   return finalPrice;
   // };
-console.log(usePage().props)
+  console.log(usePage().props)
   const handleMinusQuantity = () => setQuantity((prev) => Math.max(1, prev - 1));
   const handlePlusQuantity = () => setQuantity((prev) => prev + 1);
   console.log(productDetail)
@@ -135,21 +135,12 @@ console.log(usePage().props)
                   <p dangerouslySetInnerHTML={{ __html: productDetail?.description }}></p>
 
                   {productDetail?.product_type === "variable-product" && (
-                    // <div className="product-dropdown">
-                    //   <label htmlFor="size">Select Size:</label>
-                    //   <select id="size" name="size">
-                    //     <option>Select size</option>
-                    //     <option>Small</option>
-                    //     <option>Medium</option>
-                    //     <option>Large</option>
-                    //   </select>
-                    // </div>
-                     <AttributeDropdown attributes={productDetail?.groupedProductAttributes} calculatedPrice={productDetail.price} />
+                    <AttributeDropdown attributes={productDetail?.groupedProductAttributes} calculatedPrice={productDetail.price} />
                   )}
 
-                  <p style={{ color: "red" }}>Please select a size before adding to cart.</p>
+                  <p style={{ color: "red" }}> {t("product-detail")["select-some-product"]}</p>
 
-                  <p className="shown-price">${parseFloat(productDetail?.price).toFixed(2)} SGD</p>
+                  {/* <p className="shown-price">${parseFloat(productDetail?.price).toFixed(2)} SGD</p> */}
 
                   <div className="product-cart">
                     <span className="cart-minus" onClick={handleMinusQuantity}>
@@ -326,7 +317,7 @@ console.log(usePage().props)
                         // onSubmit={handleSubmit(UploadAddToCart)}
                         >
                           <label htmlFor="product_purchase_type">
-                            {t("product-detail.Choose Product")}
+                            {t("product-detail")["Choose Product"]}
 
                           </label>
                           <select
@@ -335,21 +326,21 @@ console.log(usePage().props)
                           // onChange={handleSelectChange}
                           >
                             <option value="" className="enuiry_meta">
-                              {t("product-detail.Select an option")}
+                              {t("product-detail")["Select an option"]}
 
                             </option>
                             <option
                               value="stream_plus_download"
                               className="enuiry_meta"
                             >
-                              {t("product-detail.Stream Scoliosis Exercises")}
+                              {t("product-detail")["Stream Scoliosis Exercises"]}
 
                             </option>
                             <option
                               value="customised_streaming"
                               className="enuiry_meta"
                             >
-                              {t("product-detail.Stream")}
+                              {t("product-detail")['Stream']}
                               {" "}
                             </option>
                           </select>
@@ -409,7 +400,7 @@ console.log(usePage().props)
                                     ${parseFloat(productDetail.price).toFixed(2)} SGD
                                   </div>
                                   <span className="stream-download">
-                                    {t("product-detail.Customized")}
+                                    {t("product-detail")["Customized"]}
                                     {" "}
                                   </span>
                                 </div>

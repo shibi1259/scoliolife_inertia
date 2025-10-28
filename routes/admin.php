@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
@@ -21,6 +23,10 @@ Route::prefix("admin")->name('admin.')->middleware(['web'])->group(function () {
         Route::get('menu', fn() => view('admin.menu.index'))->name('menu.index');
 
         Route::resource('setting', SettingController::class);
+        Route::prefix('product')->name('product.')->group(function () {
+            Route::resource('/', ProductController::class)->parameters(['' => 'product']);
+            Route::resource('category', ProductCategoryController::class);
+        });
         require __DIR__ . '/admin_articles.php';
     });
 
