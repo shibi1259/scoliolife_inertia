@@ -12,7 +12,8 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = ProductCategory::paginate(10);
+        return view('admin.product.category.index', compact('categories'));
     }
 
     /**
@@ -20,7 +21,7 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.product.category.create');
     }
 
     /**

@@ -24,8 +24,8 @@ Route::prefix("admin")->name('admin.')->middleware(['web'])->group(function () {
 
         Route::resource('setting', SettingController::class);
         Route::prefix('product')->name('product.')->group(function () {
-            Route::resource('/', ProductController::class)->parameters(['' => 'product']);
             Route::resource('category', ProductCategoryController::class);
+            Route::resource('/', ProductController::class)->parameters(['' => 'product']);
         });
         require __DIR__ . '/admin_articles.php';
     });
