@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from "react";
+import ReactPlayer  from 'react-player';
+
 import {
   Modal,
   ModalBody,
@@ -39,17 +41,10 @@ const ImageSlider = ({ productDetail }) => {
         <div className="col-md-5">
           <div className="product-video" data-test={productDetail?.featured_video_url}>
             {productDetail?.featured_video_url ? (
-              <iframe
-                width="100%"
-                height="400"
-                src={productDetail.featured_video_url}
-                title="Product Video"
-                frameBorder="0"
-                allowFullScreen
-              ></iframe>
+              <ReactPlayer url={productDetail.featured_video_url} width="100%" height="400" />
             ) : (
               <img
-                src={productDetail?.photo}
+                src={`/${productDetail?.photo}`}
                 alt={productDetail?.title}
                 className="img-fluid"
               />
@@ -70,7 +65,7 @@ const ImageSlider = ({ productDetail }) => {
                     setModal(true);
                   }}
                 >
-                  <img src={item} alt={`Thumbnail ${index}`} className="img-fluid" />
+                  <img src={`/${item}`} alt={`Thumbnail ${index}`} className="img-fluid" />
                 </div>
               ))}
             </div>

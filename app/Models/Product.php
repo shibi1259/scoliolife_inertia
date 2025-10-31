@@ -53,4 +53,15 @@ class Product extends Model
         'sku',
         'language',
     ];
+
+
+    public function category()
+    {
+        return $this->belongsTo(ProductCategory::class);
+    }
+
+    public function attributes()
+    {
+        return $this->hasMany(ProductAttributes::class);
+    }
 }

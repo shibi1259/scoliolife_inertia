@@ -10,14 +10,12 @@
         <div class="attribute-block border p-3 mb-3">
             <div class="mb-2">
                 <label>Attribute Key</label>
-                <input type="text" name="attributes[0][key]" class="form-control" placeholder="e.g. Size, Color"
-                    required>
+                <input type="text" name="attributes[0][key]" class="form-control" placeholder="e.g. Size, Color">
             </div>
 
             <div class="mb-2">
                 <label>Values (comma separated)</label>
-                <input type="text" name="attributes[0][values]" class="form-control" placeholder="e.g. S, M, L"
-                    required>
+                <input type="text" name="attributes[0][values]" class="form-control" placeholder="e.g. S, M, L">
             </div>
 
             <div class="mb-2">

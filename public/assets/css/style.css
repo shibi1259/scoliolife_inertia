@@ -25460,3 +25460,13 @@ dl li {
   }
 }
 /*# sourceMappingURL=maps/style.css.map */
+
+
+
+/* Manually Added */
+.zoom:hover {
+    transform: scale(3);
+}
+.zoom {
+    transition: transform .2s;
+}

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\LanguagesDataTable;
 use App\Models\Language;
 use Illuminate\Http\Request;
 use Str;
@@ -12,11 +11,9 @@ class LanguageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(LanguagesDataTable $datatable)
+    public function index()
     {
-        $languages = Language::paginate(10);
-        // return $datatable->render('admin.language.index');
-        return view("admin.language.index", compact("languages", 'datatable'));
+        return view('admin.language.index');
     }
 
     /**
@@ -24,7 +21,7 @@ class LanguageController extends Controller
      */
     public function create()
     {
-        return view("admin.language.create");
+        return view('admin.language.create');
     }
 
     /**
@@ -32,16 +29,15 @@ class LanguageController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
-            "name" => "required",
-            "code" => "required",
-            "icon" => "required|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
-            "status" => "required|in:active,inactive"
+            'name' => 'required',
+            'code' => 'required',
+            'icon' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'status' => 'required|in:active,inactive',
         ]);
 
         if ($request->file('icon')) {
-            $iconName = time() . '_' . $request->file('icon')->getClientOriginalName();
+            $iconName = time().'_'.$request->file('icon')->getClientOriginalName();
             $request->file('icon')->move(public_path('uploads/language_icons'), $iconName);
             $icon = "uploads/language_icons/$iconName";
         } else {
@@ -53,7 +49,7 @@ class LanguageController extends Controller
             'code' => $request->code,
             'slug' => Str::slug($request->name),
             'icon' => $icon,
-            'status' => $request->status
+            'status' => $request->status,
         ]);
 
         return redirect()->route('admin.language.index');

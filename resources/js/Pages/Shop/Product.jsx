@@ -18,7 +18,7 @@ import Loader from "@/Components/Loader";
 import CurrencyConverter from "@/Components/Shop/Product/CurrencyConverter";
 import AttributeDropdown from "@/Components/Shop/Product/AttributeDropdown";
 
-const Product = ({ product = "Demo product", auth }) => {
+const Product = ({ product, auth }) => {
   const [productDetail, setProductDetail] = useState(null);
   const { t, currentLocale } = useLaravelReactI18n();
   const lang = currentLocale();
@@ -28,11 +28,12 @@ const Product = ({ product = "Demo product", auth }) => {
   const [awsData, setAwsData] = useState(false);
 
   useEffect(() => {
-    getProduct(product, lang, auth?.user)
-      .then((data) => {
-        if (data) setProductDetail(data);
-      })
-      .catch((err) => console.error("Error fetching product:", err));
+    setProductDetail(product)
+    // getProduct(product, lang, auth?.user)
+    //   .then((data) => {
+    //     if (data) setProductDetail(data);
+    //   })
+    //   .catch((err) => console.error("Error fetching product:", err));
   }, [product, lang, auth?.user]);
 
 
@@ -94,7 +95,7 @@ const Product = ({ product = "Demo product", auth }) => {
   const averageRating = productDetail?.product_review?.length ? productDetail.product_review.reduce((sum, review) => sum + Number(review.rate), 0) / productDetail.product_review.length : 0;
   return (
     <AuthenticatedLayout>
-      <Banner title={product} />
+      <Banner title={product.title} />
 
       <div className="container">
 
@@ -134,9 +135,9 @@ const Product = ({ product = "Demo product", auth }) => {
 
                   <p dangerouslySetInnerHTML={{ __html: productDetail?.description }}></p>
 
-                  {productDetail?.product_type === "variable-product" && (
+                  {/* {productDetail?.product_type === "variable-product" && (
                     <AttributeDropdown attributes={productDetail?.groupedProductAttributes} calculatedPrice={productDetail.price} />
-                  )}
+                  )} */}
 
                   <p style={{ color: "red" }}> {t("product-detail")["select-some-product"]}</p>
 
@@ -198,7 +199,7 @@ const Product = ({ product = "Demo product", auth }) => {
                 </div>
               </div>
             </div>
-            <Description productDetail={productDetail} />
+            {/* <Description productDetail={productDetail} /> */}
           </div>
         ) : !productDetail ? <Sidebar /> : (
           <>

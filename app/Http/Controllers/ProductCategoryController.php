@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Str;
 
 class ProductCategoryController extends Controller
 {
@@ -13,6 +14,7 @@ class ProductCategoryController extends Controller
     public function index()
     {
         $categories = ProductCategory::paginate(10);
+
         return view('admin.product.category.index', compact('categories'));
     }
 
@@ -21,7 +23,9 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.product.category.create');
+        $categories = ProductCategory::where('status', 'active')->whereNull('parent_id')->get();
+
+        return view('admin.product.category.create', compact('categories'));
     }
 
     /**
@@ -29,7 +33,36 @@ class ProductCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:product_categories,slug',
+            'summary' => 'nullable|string',
+            'description' => 'nullable|string',
+            'status' => 'required|in:active,inactive',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        try {
+            $data = $request->only(['title', 'slug', 'summary', 'description', 'parent_id', 'status']);
+
+            // Generate slug automatically if not provided
+            $data['slug'] = $request->slug ?: Str::slug($request->title);
+
+            // Handle Image Upload
+            if ($request->hasFile('photo')) {
+                $fileName = time().'.'.$request->photo->extension();
+                $request->photo->move(public_path('uploads/category'), $fileName);
+                $data['photo'] = 'uploads/category/'.$fileName;
+            }
+
+            ProductCategory::create($data);
+
+            return redirect()
+                ->route('admin.product.category.index')
+                ->with('success', 'Category created successfully!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -10,8 +11,11 @@ Route::get('/shop', function () {
 
 Route::get('/product/{product}', function (...$args) {
     app()->getLocale() === 'en_US' ? [$product] = $args : [$locale, $product] = $args;
+
+    $data = Product::where('slug', $product)->where('language', $locale ?? 'en_US')->with(['category', 'attributes'])->first();
+    
     return Inertia::render('Shop/Product', [
-        'product' => $product , 'lang' => $locale ?? null,
+        'product' => $data , 'lang' => $locale ?? null,
     ]);
 })->name('shop.product');
 

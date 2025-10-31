@@ -1,3 +1,5 @@
+@livewireScripts
+
 <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
 <script src="{{ asset('assets/vendors/chart.js/chart.umd.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.cookie.js') }}"></script>

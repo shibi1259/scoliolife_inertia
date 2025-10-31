@@ -7,45 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">All Languages</h4>
-
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Code</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($languages as $language)
-                                        <tr>
-                                            <td>{{ $language->name }}</td>
-                                            <td>{{ $language->code }}</td>
-                                            <td><span
-                                                    class="badge text-white {{ $language->status === 'active' ? 'text-bg-success' : 'text-bg-danger' }}">{{ ucfirst($language->status) }}</span>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('admin.language.edit', $language->id) }}"
-                                                    class="btn btn-primary">Edit</a>
-                                                <form action="{{ route('admin.language.destroy', $language->id) }}"
-                                                    method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            {{ $languages->links() }}
-                        </div>
-
+                        <livewire:datatable.languages-table />
                     </div>
                 </div>
             </div>
