@@ -30,9 +30,9 @@ createInertiaApp({
             return;
         }
 
-        createRoot(el).render(  <LaravelReactI18nProvider files={import.meta.glob('/lang/*.json')}> <ToastContainer /> <App {...props} /> </LaravelReactI18nProvider> );
+        createRoot(el).render(<LaravelReactI18nProvider files={import.meta.glob('/lang/*.json')}> <ToastContainer /> <App {...props} /> </LaravelReactI18nProvider>);
     },
     progress: {
-        color: '#4B5563',
+        color: '#fba700',
     },
 });

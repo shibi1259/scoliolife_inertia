@@ -79,7 +79,7 @@ const Footer = ({ footer, contactDetails, widgets, disclaimer }) => {
           <div className="col-sm-4">
             <div className="facebook-dis">
               <h3>{t('footer-section')['facebook']}</h3>
-              <FacebookPage currentLanguage={lang} />
+              {/* <FacebookPage currentLanguage={lang} /> */}
             </div>
           </div>
         </div>

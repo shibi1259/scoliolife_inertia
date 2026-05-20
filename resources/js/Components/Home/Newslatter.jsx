@@ -18,7 +18,7 @@ const Newslatter = () => {
                     </div>
                     <div className="col-sm-5">
                         <div className="newsletter-logo-wrapper">
-                            <img src="assets/images/ScolioLife-Logo.webp" alt='scoliolife-logo' />
+                            <img src="/assets/images/ScolioLife-Logo.webp" alt='scoliolife-logo' />
                         </div>
                     </div>
                 </div>

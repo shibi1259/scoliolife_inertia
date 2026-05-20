@@ -5,7 +5,7 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { getLocaleForRoute } from "@/Utils/localeHelper";
+import { getLocaleForRoute, routeWithLocale } from "@/Utils/localeHelper";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import { useState } from "react";
@@ -26,7 +26,7 @@ export default function Login({ status, canResetPassword }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("login", {locale: currentLang}), {
+        post(routeWithLocale("login", currentLang), {
             onFinish: () => reset("password"),
         });
     };
@@ -53,22 +53,21 @@ export default function Login({ status, canResetPassword }) {
                             />
                             <div className="side-btn">
                                 <Link
-                                    href={route("login", {locale: currentLang})}
-                                    className={`${
-                                        route().current("login")
+                                    href={routeWithLocale("login", currentLang)}
+                                    className={
+                                        route().current("login") || route().current("localized.login")
                                             ? "login"
                                             : "register"
-                                    }`}
+                                    }
                                 >
                                     Log In
                                 </Link>
                                 <Link
-                                    href={route("register", {locale: currentLang})}
-                                    className={`${
-                                        route().current("register")
-                                            ? "login"
-                                            : "register"
-                                    }`}
+                                    href={routeWithLocale("register", currentLang)}
+                                    className={`${route().current("register")
+                                        ? "login"
+                                        : "register"
+                                        }`}
                                 >
                                     Register
                                 </Link>
@@ -200,7 +199,7 @@ export default function Login({ status, canResetPassword }) {
 
                             {canResetPassword && (
                                 <Link
-                                    href={route("password.request", {locale: currentLang})}
+                                    href={routeWithLocale("password.request", currentLang)}
                                     className="forgot-password"
                                 >
                                     Forgot your password?

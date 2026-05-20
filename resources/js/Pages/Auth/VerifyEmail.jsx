@@ -1,14 +1,18 @@
 import PrimaryButton from '@/Components/PrimaryButton';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { getLocaleForRoute, routeWithLocale } from '@/Utils/localeHelper';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 export default function VerifyEmail({ status }) {
     const { post, processing } = useForm({});
+    const { currentLocale } = useLaravelReactI18n();
+    const currentLang = getLocaleForRoute(currentLocale());
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('verification.send'));
+        post(routeWithLocale('verification.send', currentLang));
     };
 
     return (
@@ -36,7 +40,7 @@ export default function VerifyEmail({ status }) {
                     </PrimaryButton>
 
                     <Link
-                        href={route('logout')}
+                        href={routeWithLocale('logout', currentLang)}
                         method="post"
                         as="button"
                         className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

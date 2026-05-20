@@ -4,6 +4,8 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Transition } from '@headlessui/react';
 import { Link, useForm, usePage } from '@inertiajs/react';
+import { getLocaleForRoute, routeWithLocale } from '@/Utils/localeHelper';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -11,6 +13,8 @@ export default function UpdateProfileInformation({
     className = '',
 }) {
     const user = usePage().props.auth.user;
+    const { currentLocale } = useLaravelReactI18n();
+    const currentLang = getLocaleForRoute(currentLocale());
 
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
@@ -21,7 +25,7 @@ export default function UpdateProfileInformation({
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route('profile.update'));
+        patch(routeWithLocale('profile.update', currentLang));
     };
 
     return (
@@ -74,7 +78,7 @@ export default function UpdateProfileInformation({
                         <p className="mt-2 text-sm text-gray-800">
                             Your email address is unverified.
                             <Link
-                                href={route('verification.send')}
+                                href={routeWithLocale('verification.send', currentLang)}
                                 method="post"
                                 as="button"
                                 className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

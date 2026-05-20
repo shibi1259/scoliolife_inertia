@@ -6,10 +6,14 @@ import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import { useRef, useState } from 'react';
+import { getLocaleForRoute, routeWithLocale } from '@/Utils/localeHelper';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 export default function DeleteUserForm({ className = '' }) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const passwordInput = useRef();
+    const { currentLocale } = useLaravelReactI18n();
+    const currentLang = getLocaleForRoute(currentLocale());
 
     const {
         data,
@@ -30,7 +34,7 @@ export default function DeleteUserForm({ className = '' }) {
     const deleteUser = (e) => {
         e.preventDefault();
 
-        destroy(route('profile.destroy'), {
+        destroy(routeWithLocale('profile.destroy', currentLang), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
             onError: () => passwordInput.current.focus(),

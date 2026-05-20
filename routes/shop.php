@@ -5,20 +5,18 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 
-Route::get('/shop', function () {
-    return Inertia::render('Shop/Shop');
-})->name('shop.index');
+Route::get('/shop', fn() => Inertia::render('Shop/Shop'))->name('shop.index');
 
 Route::get('/product/{product}', function (...$args) {
-    app()->getLocale() === 'en_US' ? [$product] = $args : [$locale, $product] = $args;
+    $product = end($args);
+    $locale = count($args) > 1 ? $args[0] : (app()->getLocale() ?: 'en_US');
 
-    $data = Product::where('slug', $product)->where('language', $locale ?? 'en_US')->with(['category', 'attributes'])->first();
-    
+    $data = Product::where('slug', $product)->where('language', $locale)->with(['category', 'attributes'])->first();
+
     return Inertia::render('Shop/Product', [
-        'product' => $data , 'lang' => $locale ?? null,
+        'product' => $data,
+        'lang' => $locale,
     ]);
 })->name('shop.product');
 
-Route::get('/shop/cart', function () {
-    return Inertia::render('Shop/Cart');
-})->name('shop.cart');
+Route::get('/shop/cart', fn() => Inertia::render('Shop/Cart'))->name('shop.cart');

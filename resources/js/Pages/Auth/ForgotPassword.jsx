@@ -4,16 +4,20 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
+import { getLocaleForRoute, routeWithLocale } from '@/Utils/localeHelper';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 export default function ForgotPassword({ status }) {
     const { data, setData, post, processing, errors } = useForm({
         email: '',
     });
+    const { currentLocale } = useLaravelReactI18n();
+    const currentLang = getLocaleForRoute(currentLocale());
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('password.email'));
+        post(routeWithLocale('password.email', currentLang));
     };
 
     return (

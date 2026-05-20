@@ -42,7 +42,7 @@ class ArticleController extends Controller
 
     public function show(...$args)
     {
-        app()->getLocale() === 'en_US' ? [$slug] = $args : [$locale, $slug] = $args;
+        $slug = end($args);
 
         $article = Article::where('slug', $slug)->with(['creator'])->firstOrFail();
         return Inertia::render('Articles/Show', [

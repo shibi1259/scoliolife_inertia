@@ -1,6 +1,6 @@
 import Sidebar from '@/Components/Sidebar'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import { getLocaleForRoute } from '@/Utils/localeHelper'
+import { getLocaleForRoute, routeWithLocale } from '@/Utils/localeHelper'
 import { Link } from '@inertiajs/react'
 import { useLaravelReactI18n } from 'laravel-react-i18n'
 import React from 'react'
@@ -19,7 +19,7 @@ const Articles = ({ articles }) => {
                             articles.map(article => (
                                 <div key={article.id} className="col-sm-6">
                                     <div className="treatments-wrpper">
-                                        <Link className="rnd-readmore-btn" href={route('articles.show', { locale: currentLang, article: article.slug })}>
+                                        <Link className="rnd-readmore-btn" href={routeWithLocale('articles.show', currentLang, { article: article.slug })}>
                                             <img src={`/storage/${article.image}`} alt='no-image' /></Link>
                                         <h3>{article.title}</h3>
                                         <p>{article.summary}</p>
@@ -27,7 +27,7 @@ const Articles = ({ articles }) => {
                                         {/* <p>{moment(article.created_at).format('MMMM Do YYYY')} <b>/</b> {article.creator?.name}</p> */}
                                         <div dangerouslySetInnerHTML={{ __html: article.excerpt }} />
                                         <div className="pt-cv-readmore">
-                                            <Link className="rnd-readmore-btn  btn btn-success _self pt-cv-readmore" href={route('articles.show', { locale: currentLang, article: article.slug })}>{t("Patients")['read_more']}</Link>
+                                            <Link className="rnd-readmore-btn  btn btn-success _self pt-cv-readmore" href={routeWithLocale('articles.show', currentLang, { article: article.slug })}>{t("Patients")['read_more']}</Link>
                                         </div>
                                     </div>
                                 </div>

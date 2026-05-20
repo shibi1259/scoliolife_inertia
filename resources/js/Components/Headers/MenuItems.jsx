@@ -7,21 +7,39 @@ const MobileMenus = ({ item, scrollToTop, currentLanguage }) => {
         if (!link || link === '#') return '#';
         return `/${currentLanguage}/${link}`.replace(/\/+/g, '/');
     };
+    const [open, setOpen] = React.useState(false);
+
+    const handleClicking = () => {
+        scrollToTop();
+        setOpen((prev) => !prev);
+    };
 
     return (
         <Fragment>
-            <p>{item.label}</p>
-            {item.children && item.children.map((submenuItem) => (
-                <Link
-                    key={submenuItem.id}
-                    className={`dropdown-item ${submenuItem.class || ''}`}
-                    href={getLink(submenuItem.link)}
-                    onClick={scrollToTop}
-                >
-                    {submenuItem.icon && <img src={submenuItem.icon} alt="" />}
-                    {submenuItem.label}
-                </Link>
-            ))}
+            <ul className="sub-menu">
+                <li className="nonce-link menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children">
+                    <a
+                        className="nav-link dropdown-toggle"
+                        onClick={handleClicking}
+                    >
+                        {item.label}
+                    </a>
+
+                    {(open) ? (
+                        <ul className="sub-menus">
+                            {item.children.map((submenuItem) => (
+                                <li key={submenuItem.id} className="menu-item menu-item-type-custom menu-item-object-custom menu-item-644158">
+                                    <Link
+                                        to={getLink(submenuItem.link)}
+                                    >
+                                        {submenuItem.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : null}
+                </li>
+            </ul>
         </Fragment>
     );
 };
@@ -112,8 +130,9 @@ const DesktopMenus = (props) => {
                                                 {isMobile ? (
                                                     <MobileMenus
                                                         item={item}
-                                                        scrollToTop={() => handleClicking(menuItem.id)}
+                                                        scrollToTop={scrollToTop}
                                                         currentLanguage={currentLanguage}
+                                                        openMenus={openMenus}
                                                     />
                                                 ) : (
                                                     <Fragment>
@@ -172,7 +191,7 @@ const MenuItems = (props) => {
     } = props;
 
     return (
-        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+        <ul className="navbar-nav ms-auto mb-2 mb-lg-0 mx-auto w-100 justify-content-center">
             {items.map((menuItem, index) => (
                 <DesktopMenus
                     key={menuItem.id}

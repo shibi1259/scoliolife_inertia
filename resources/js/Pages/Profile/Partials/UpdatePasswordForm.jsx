@@ -5,10 +5,14 @@ import TextInput from '@/Components/TextInput';
 import { Transition } from '@headlessui/react';
 import { useForm } from '@inertiajs/react';
 import { useRef } from 'react';
+import { getLocaleForRoute, routeWithLocale } from '@/Utils/localeHelper';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 export default function UpdatePasswordForm({ className = '' }) {
     const passwordInput = useRef();
     const currentPasswordInput = useRef();
+    const { currentLocale } = useLaravelReactI18n();
+    const currentLang = getLocaleForRoute(currentLocale());
 
     const {
         data,
@@ -27,7 +31,7 @@ export default function UpdatePasswordForm({ className = '' }) {
     const updatePassword = (e) => {
         e.preventDefault();
 
-        put(route('password.update'), {
+        put(routeWithLocale('password.update', currentLang), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {

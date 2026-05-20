@@ -33,7 +33,7 @@ return [
     /**
      * Use JSON Translations instead of PHP Array
      */
-    'use_json_translations' => true,
+    'use_json_translations' => false,
 
     /**
      * Customise Script & Styles Paths
@@ -77,7 +77,7 @@ return [
             'dateFormat' => 'Y-m-d', // Date format that will be received by the filter
             'earliestDate' => null, // The earliest acceptable date
             'latestDate' => null, // The latest acceptable date
-            'locale' => 'en', // The default locale
+            'locale' => 'en_US', // The default locale
         ],
     ],
 

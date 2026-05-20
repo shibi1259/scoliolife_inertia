@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "@/Components/Sidebar";
 import { useForm } from "@inertiajs/react";
 import { useLaravelReactI18n } from "laravel-react-i18n";
+import { getLocaleForRoute, routeWithLocale } from "@/Utils/localeHelper";
 import { Rating } from '@smastrom/react-rating'
 
 const Description = ({ productDetail, auth }) => {
     const [activeTab, setActiveTab] = useState("tab1");
     const [summaryText, setSummaryText] = useState("");
     const { t } = useLaravelReactI18n();
+    const lang = useLaravelReactI18n().currentLocale();
+    const currentLang = getLocaleForRoute(lang);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         review: "",
@@ -39,7 +42,7 @@ const Description = ({ productDetail, auth }) => {
         e.preventDefault();
 
         // Submit using Inertia's post method
-        post(route('reviews.store', productDetail?.id), {
+        post(routeWithLocale('reviews.store', currentLang, { review: productDetail?.id }), {
             onSuccess: () => {
                 // Reset form on successful submission
                 reset();

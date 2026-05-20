@@ -1,6 +1,6 @@
 import Banner from "@/Components/Banner";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { getLocaleForRoute } from "@/Utils/localeHelper";
+import { getLocaleForRoute, routeWithLocale } from "@/Utils/localeHelper";
 import { Link } from "@inertiajs/react";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import React from "react";
@@ -27,7 +27,7 @@ const Cart = () => {
                 <p className="return-to-shop">
                   <Link
                     className="button wc-backward"
-                    href={route("shop.index", { locale: currentLang })}
+                    href={routeWithLocale("shop.index", currentLang)}
                   >
                     Return to shop
                   </Link>

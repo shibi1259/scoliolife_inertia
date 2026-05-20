@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { useForm } from '@inertiajs/react';
-import { getLocaleForRoute } from '@/Utils/localeHelper';
+import { getLocaleForRoute, routeWithLocale } from '@/Utils/localeHelper';
 import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 const ContactForm = (props) => {
@@ -38,7 +38,7 @@ const ContactForm = (props) => {
 		e.preventDefault();
 		console.log(data);
 
-		post(route('contacts.store', { locale: currentLang }), {
+		post(routeWithLocale('contacts.store', currentLang), {
 			forceFormData: true,
 			onSuccess: () => {
 				reset();

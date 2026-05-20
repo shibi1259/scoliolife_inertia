@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { PiUserCircle } from "react-icons/pi";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import { useLaravelReactI18n } from "laravel-react-i18n";
-import { getLocaleForRoute } from "@/Utils/localeHelper";
+import { getLocaleForRoute, routeWithLocale } from "@/Utils/localeHelper";
 import MenuItems from "./MenuItems";
 
 const Navbar = ({ user, header }) => {
@@ -40,20 +40,21 @@ const Navbar = ({ user, header }) => {
         <>
             <nav className="navbar navbar-expand-lg navbar-light sticky-top">
                 <div className="container">
-                    <Link className="navbar-brand" href={route("home", { locale: currentLang })}>
+                    <Link className="navbar-brand" href={routeWithLocale("home", currentLang)}>
                         <ApplicationLogo />
                     </Link>
                     <button
                         className="navbar-toggler mobile-toogler"
                         type="button"
-                        data-toggle="collapse"
-                        data-target="#mobile_nav"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mobile_nav"
                         aria-controls="mobile_nav"
                         aria-expanded="false"
                         aria-label="Toggle navigation"
                     >
                         <span className="navbar-toggler-icon"></span>
                     </button>
+
                     <div className="collapse navbar-collapse" id="mobile_nav">
                         <ul className="navbar-nav navbar-light ">
 
@@ -74,7 +75,7 @@ const Navbar = ({ user, header }) => {
                             )}
 
                             <div className="cart-header-design">
-                                <Link href={route('shop.cart', { locale: currentLang })}>
+                                <Link href={routeWithLocale('shop.cart', currentLang)}>
                                     <img
                                         src="/assets/images/shopping-basket.webp"
                                         alt="shop"
@@ -90,11 +91,11 @@ const Navbar = ({ user, header }) => {
                                     <div className="login-hover">
                                         <ul>
                                             {!user ? <li>
-                                                <Link href={route("login", { locale: currentLang })}>
+                                                <Link href={routeWithLocale("login", currentLang)}>
                                                     Login/Register
                                                 </Link>
                                             </li> : <li>
-                                                <Link href={route("dashboard", { locale: currentLang })}>
+                                                <Link href={routeWithLocale("dashboard", currentLang)}>
                                                     My Account
                                                 </Link>
                                             </li>}
@@ -104,7 +105,7 @@ const Navbar = ({ user, header }) => {
                                             {user && (
                                                 <li>
                                                     <Link
-                                                        href={route("logout", { locale: currentLang })}
+                                                        href={route("logout")}
                                                         method="post"
                                                         as="button"
                                                     >

@@ -6,6 +6,7 @@ use App;
 use App\Models\Language;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\Response;
 
 class SetLocale
@@ -35,8 +36,10 @@ class SetLocale
                 return redirect()->to('/' . implode('/', $segments));
             }
             App::setLocale(config('app.locale'));
+            URL::defaults(['locale' => null]);
         } elseif (in_array($locale, $availableLocales)) {
             App::setLocale($locale);
+            URL::defaults(['locale' => $locale]);
         } else {
             return redirect()->route('home', ['locale' => app()->getLocale()]);
         }

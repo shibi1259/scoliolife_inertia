@@ -8,8 +8,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\SetLocale;
 use Inertia\Inertia;
 
-$languages = Language::where('status', 'active')->pluck('code')->toArray();
-array_push($languages, '');
+use Illuminate\Support\Facades\Schema;
+
+// Helper to safely fetch languages during bootstrapping
+$languages = [];
+try {
+    if (Schema::hasTable('languages')) {
+        $languages = Language::where('status', 'active')->pluck('code')->toArray();
+    }
+} catch (\Exception $e) {
+    // Migration might be running, fallback to empty
+}
 
 $routeHandler = function () {
     Route::get('/', fn() => Inertia::render('Home'))->name('home');
@@ -31,8 +40,16 @@ $routeHandler = function () {
 require __DIR__ . '/admin.php';
 Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
 
-// For default locale (en_US) - no prefix
-Route::middleware(['web'])->group($routeHandler);
 
-// For all other locales - with prefix
-Route::prefix('{locale?}')->whereIn('locale', $languages)->middleware([SetLocale::class, 'web'])->group($routeHandler);
+// 1. Prefixed routes (e.g. /fr_FR/login)
+if (!empty($languages)) {
+    Route::prefix('{locale}')
+        ->whereIn('locale', $languages)
+        ->middleware([SetLocale::class, 'web'])
+        ->name('localized.')
+        ->group($routeHandler);
+}
+
+
+// 2. Default routes (e.g. /login)
+Route::middleware(['web'])->group($routeHandler);

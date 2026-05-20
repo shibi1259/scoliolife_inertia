@@ -6,7 +6,7 @@ import Sidebar from "@/Components/Shop/Sidebar";
 import { getProducts } from "@/API/api";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useLaravelReactI18n } from "laravel-react-i18n";
-import { getLocaleForRoute } from "@/Utils/localeHelper";
+import { getLocaleForRoute, routeWithLocale } from "@/Utils/localeHelper";
 
 const Shop = () => {
     const [products, setProducts] = useState([]);
@@ -87,7 +87,7 @@ const Shop = () => {
                                 <div className="col-sm-4" key={product.id}>
                                     <div className="shop-treatments">
                                         <BsHeart />
-                                        <Link href={route('shop.product', { product: product.slug, locale: currentLang })} className="shop-link">
+                                        <Link href={routeWithLocale('shop.product', currentLang, { product: product.slug })} className="shop-link">
                                             <img src={product.photo} alt={product.title} />
                                             <h3>{product.title}</h3>
 

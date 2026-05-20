@@ -8,7 +8,7 @@ import { Link } from "@inertiajs/react";
 import Navbar from "./Navbar";
 import LangSwitcher from "../LangSwitcher";
 import { useLaravelReactI18n } from "laravel-react-i18n";
-import { getLocaleForRoute } from "@/Utils/localeHelper";
+import { getLocaleForRoute, routeWithLocale } from "@/Utils/localeHelper";
 
 export default function MainHeader({ user, languages, menus, header }) {
     const { t, currentLocale, loading } = useLaravelReactI18n();
@@ -97,7 +97,7 @@ export default function MainHeader({ user, languages, menus, header }) {
                                 <div className="book_consultation">
                                     <Link
                                         rel="noopener noreferrer"
-                                        href={route('online-booking', { locale: currentLang })}
+                                        href={routeWithLocale('online-booking', currentLang)}
                                     >
                                         <span>
                                             <img
@@ -116,7 +116,7 @@ export default function MainHeader({ user, languages, menus, header }) {
                                         <LangSwitcher languages={languages} />
                                     </div>
                                 </div>
-                                <Link href={route('shop.index', { locale: currentLang })} className="shop-btn">
+                                <Link href={routeWithLocale('shop.index', currentLang)} className="shop-btn">
                                     <span>
                                         <img
                                             src="/assets/images/shop icon.webp"

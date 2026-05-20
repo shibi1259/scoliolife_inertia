@@ -4,16 +4,20 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, useForm } from '@inertiajs/react';
+import { getLocaleForRoute, routeWithLocale } from '@/Utils/localeHelper';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 export default function ConfirmPassword() {
     const { data, setData, post, processing, errors, reset } = useForm({
         password: '',
     });
+    const { currentLocale } = useLaravelReactI18n();
+    const currentLang = getLocaleForRoute(currentLocale());
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('password.confirm'), {
+        post(routeWithLocale('password.confirm', currentLang), {
             onFinish: () => reset('password'),
         });
     };
