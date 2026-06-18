@@ -14,7 +14,7 @@ class SetLocale
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -40,6 +40,7 @@ class SetLocale
         } elseif (in_array($locale, $availableLocales)) {
             App::setLocale($locale);
             URL::defaults(['locale' => $locale]);
+            \Log::info('Locale set to: ' . $locale);
         } else {
             return redirect()->route('home', ['locale' => app()->getLocale()]);
         }

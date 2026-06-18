@@ -4,8 +4,8 @@
 <div class="card">
     <div class="card-header" id="heading-{{$id}}">
         <h5 class="mb-0">
-            <button class="btn btn-link" data-toggle="collapse" 
-            data-target="#collapse{{$id}}" 
+            <button class="btn btn-link" data-bs-toggle="collapse" 
+            data-bs-target="#collapse{{$id}}" 
             aria-expanded="true" aria-controls="collapse{{$id}}">
                 {{$name}}
                 <i class="fa fa-angle-down narrow-icon float-right"></i>
@@ -14,8 +14,8 @@
     </div>
 
     <div id="collapse{{$id}}" class="collapse @isset($show) show @endisset" 
-    aria-labelledby="heading{{$id}}" 
-    data-parent="#accordion">
+    aria-labelledby="heading-{{$id}}" 
+    data-bs-parent="#accordion">
         <div class="card-body box-links-for-menu">
             <form method="get" action="">
                 <div class="form-group">

@@ -2,7 +2,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Scoliolife Admin</title>
 @livewireStyles
-
 <link rel="stylesheet" href="{{ asset('assets/vendors/typicons/typicons.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendors/css/vendor.bundle.base.css') }}">
 

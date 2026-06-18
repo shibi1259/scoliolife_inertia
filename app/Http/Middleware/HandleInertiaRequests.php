@@ -49,7 +49,7 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
-            'locale' => App::getLocale(),
+            'locale' => $language,
             'header' => $header,
             'footer' => $footer,
             'contactDetails' => $contactDetails,

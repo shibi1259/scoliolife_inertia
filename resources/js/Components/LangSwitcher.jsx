@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import { usePage, router } from '@inertiajs/react';
+import React, { useEffect, useState } from 'react';
+import { router, usePage } from '@inertiajs/react';
 import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+import { useLanguageStore } from '@/Stores/useLanguageStore';
 
 const LangSwitcher = ({ languages }) => {
     const { locale } = usePage().props;
-    const { setLocale, loading } = useLaravelReactI18n();
+    const { setLocale, loading, currentLocale } = useLaravelReactI18n();
     const [isOpen, setIsOpen] = useState(false);
+    const lang = currentLocale();
+    // const { selectedLanguage, setSelectedLanguage } = useLanguageStore();
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -14,23 +17,23 @@ const LangSwitcher = ({ languages }) => {
 
     const handleChange = (selectedLang) => {
         const selectedLocale = selectedLang.code;
-        const currentPath = window.location.pathname;
+        const url = new URL(window.location.href);
+        const currentPath = url.pathname;
+        const search = url.search;
         const pathWithoutLocale = currentPath.replace(/^\/([a-z]{2}_[A-Z]{2})/, '');
-
-        const newPath = selectedLocale === 'en_US'
-            ? `${pathWithoutLocale || '/'}`
-            : `/${selectedLocale}${pathWithoutLocale}`;
-
+        const newPath = selectedLocale === 'en_US' ? `${pathWithoutLocale || '/'}${search}` : `/${selectedLocale}${pathWithoutLocale}${search}`;
         setIsOpen(false);
         setLocale(selectedLocale);
+        // setSelectedLanguage(selectedLang);
+        console.log('Selected newPath:', newPath);
         router.visit(newPath, { preserveState: true });
     };
 
-    const selectedLanguage = languages.find((lang) => lang.code === locale) || {
-        name: 'US',
-        icon: '/flags/us.png'
-    };
-
+    const selectedLanguage = languages.find(
+        item => item.code === locale
+    );
+    
+console.log(locale, lang)
     return (
         <>
             {loading && (

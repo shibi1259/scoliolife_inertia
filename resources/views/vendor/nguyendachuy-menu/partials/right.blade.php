@@ -2,22 +2,44 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-12">
-                <form class="form-inline" action="" method="post">
-                    <div class="form-group">
-                        <label for="email" class="mr-sm-2">Name: </label>
-                        <input name="menu-name" id="menu-name" type="text" 
-                        class="form-control menu-name regular-text menu-item-textbox" 
-                        title="Enter menu name" value="@if(isset($indmenu)){{$indmenu->name}}@endif">
-                        @if(request()->has('action'))
-                            <button type="button" onclick="createNewMenu()" name="save_menu" 
-                                class="btn btn-primary menu-save ml-2">Create Menu</button>
-                        @elseif(request()->has('menu'))
-                            <button type="button" onclick="actualizarMenu(false)" name="save_menu"
-                                class="btn btn-primary menu-save ml-2">Save Menu</button>
-                        @else
-                            <button type="button" onclick="createNewMenu()" name="save_menu" 
-                                class="btn btn-primary menu-save ml-2">Create Menu</button>
-                        @endif
+                <form action="" method="post">
+                    <div class="row align-items-end g-3">
+                        <div class="col">
+                            <label for="menu-name" class="form-label fw-semibold">
+                                Menu Name
+                            </label>
+                            <input
+                                name="menu-name"
+                                id="menu-name"
+                                type="text"
+                                class="form-control"
+                                placeholder="Enter menu name"
+                                value="@if(isset($indmenu)){{$indmenu->name}}@endif">
+                        </div>
+                        <div class="col-auto">
+                            @if(request()->has('action'))
+                                <button
+                                    type="button"
+                                    onclick="createNewMenu()"
+                                    class="btn btn-primary px-4">
+                                    Create Menu
+                                </button>
+                            @elseif(request()->has('menu'))
+                                <button
+                                    type="button"
+                                    onclick="actualizarMenu(false)"
+                                    class="btn btn-primary px-4">
+                                    Save Menu
+                                </button>
+                            @else
+                                <button
+                                    type="button"
+                                    onclick="createNewMenu()"
+                                    class="btn btn-primary px-4">
+                                    Create Menu
+                                </button>
+                            @endif
+                        </div>
                     </div>
                 </form>
                 <hr>

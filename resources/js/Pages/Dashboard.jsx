@@ -29,7 +29,7 @@ export default function Dashboard({ auth }) {
                                         <Link to="/account-details">Account details</Link>
                                     </li>
                                     <li className="navigation-link--customer-logout"><i className="fa fa-angle-right" aria-hidden="true"></i>
-                                        <Link href={routeWithLocale("logout", currentLang)} method="post">  <span> Log Out </span> </Link>
+                                        <Link href={route("logout")} method="post">  <span> Log Out </span> </Link>
                                     </li>
                                 </ul>
                             </nav>
@@ -38,7 +38,7 @@ export default function Dashboard({ auth }) {
                             <div className="woocommerce-MyAccount-content">
                                 <div className="woocommerce-notices-wrapper"></div>
                                 <p>
-                                    Hello <strong>{auth.user.name}</strong> (not <strong>{auth.user.name}</strong>? <Link href={routeWithLocale("logout", currentLang)} method="post" className='dashboard-logout-span'>  <span> Log Out </span> </Link>)
+                                    Hello <strong>{auth.user.name}</strong> (not <strong>{auth.user.name}</strong>? <Link href={route("logout")} method="post" className='dashboard-logout-span'>  <span> Log Out </span> </Link>)
                                 </p>
                                 <p>
                                     From your account dashboard you can view your <Link to="/order">recent orders</Link></p>
